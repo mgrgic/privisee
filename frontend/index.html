@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>privIsee — share your location privately</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <h1>privIsee</h1>
+    <p class="tagline">Share your live location — end-to-end encrypted. We never see where you are.</p>
+    <p id="status" class="status"></p>
+
+    <section id="start-section" class="card">
+      <form id="start-form">
+        <label for="duration">How long should you be locatable?</label>
+        <div class="duration-row">
+          <input type="number" id="duration" min="1" value="30" required />
+          <select id="duration-unit">
+            <option value="minutes" selected>Minutes</option>
+            <option value="hours">Hours</option>
+          </select>
+        </div>
+        <button type="submit" class="primary">Start sharing</button>
+      </form>
+    </section>
+
+    <section id="active-section" class="card" hidden>
+      <label>Share this link</label>
+      <div class="share-url-row">
+        <input id="share-url" type="text" readonly />
+        <button id="copy-btn" type="button">Copy</button>
+      </div>
+      <p class="meta">Sharing ends: <span id="expires-at"></span></p>
+      <button id="stop-btn" type="button" class="danger">Stop sharing</button>
+    </section>
+  </div>
+
+  <script src="js/crypto.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
