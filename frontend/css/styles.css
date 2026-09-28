@@ -32,9 +32,21 @@ body {
   flex-direction: column;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 4px;
+}
+
+.logo {
+  display: block;
+  flex-shrink: 0;
+}
+
 h1 {
   font-size: 1.5rem;
-  margin: 8px 0 4px;
+  margin: 0;
 }
 
 .tagline {

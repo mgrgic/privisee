@@ -44,7 +44,7 @@
   async function publishPosition(position) {
     if (!session || !socket || socket.readyState !== WebSocket.OPEN) return;
     const { latitude, longitude } = position.coords;
-    const { payload, iv } = await encryptLocation(session.key, latitude, longitude);
+    const { payload, iv } = await encryptLocation(session.key.key, latitude, longitude);
     socket.send(JSON.stringify({
       type: 'publish',
       shareId: session.shareId,
