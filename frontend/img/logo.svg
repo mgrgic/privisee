@@ -1,10 +1,117 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="privIsee logo">
-  <path d="M32 2 C18 2 8 12 8 26 C8 44 32 62 32 62 C32 62 56 44 56 26 C56 12 46 2 32 2 Z"
-        fill="#1a73e8" />
-
-  <path d="M23 26 V20 A9 9 0 0 1 41 20 V26"
-        fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
-  <rect x="20" y="26" width="24" height="20" rx="4" fill="#ffffff" />
-  <circle cx="32" cy="34" r="2.2" fill="#1558b3" />
-  <path d="M30.8 35.5 H33.2 L32.4 40.5 H31.6 Z" fill="#1558b3" />
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 64 64"
+   width="64"
+   height="64"
+   role="img"
+   aria-label="privIsee logo"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="logo.svg"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3">
+    <linearGradient
+       id="linearGradient6"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#ff9503;stop-opacity:1;"
+         offset="0"
+         id="stop6" />
+      <stop
+         style="stop-color:#ff9503;stop-opacity:0.58181816;"
+         offset="1"
+         id="stop7" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#27617a;stop-opacity:1;"
+         offset="0"
+         id="stop3" />
+      <stop
+         style="stop-color:#2ac2c5;stop-opacity:1;"
+         offset="1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient4"
+       x1="8.5244598"
+       y1="27.010122"
+       x2="55.475521"
+       y2="36.98988"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.55625016,0,0,0.62708336,14.216678,8.4495371)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6"
+       id="linearGradient7"
+       x1="24.30566"
+       y1="13.045502"
+       x2="40.288143"
+       y2="45.814445"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="7.1594562"
+     inkscape:cx="-25.071737"
+     inkscape:cy="23.954333"
+     inkscape:window-width="2443"
+     inkscape:window-height="1074"
+     inkscape:window-x="2290"
+     inkscape:window-y="244"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3" />
+  <path
+     style="fill:url(#linearGradient7);fill-opacity:1;stroke:#ff8801;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 14.567901,10.864 32.246914,4.7407407 50.024691,10.864 c 0,0 -0.09052,19.963758 -3.508143,29.420769 C 44.029178,47.167647 33.762883,54.116501 32.058877,54.148 30.22991,54.181809 20.577007,46.914924 17.980056,39.913407 14.589485,30.772248 14.567901,10.864 14.567901,10.864 Z"
+     id="path4"
+     sodipodi:nodetypes="cccsssc"
+     inkscape:label="shield" />
+  <path
+     d="m 32.016667,9.7037037 c -7.787496,0 -13.35,6.2708343 -13.35,15.0500003 0,11.2875 13.35,22.575 13.35,22.575 0,0 13.35,-11.2875 13.35,-22.575 0,-8.779166 -5.562504,-15.0500003 -13.35,-15.0500003 z"
+     fill="#1a73e8"
+     id="path1"
+     style="display:inline;fill:url(#linearGradient4);stroke-width:0.590605" />
+  <path
+     d="m 23,26 v -6 a 9,9 0 0 1 18,0 v 6"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="4"
+     stroke-linecap="round"
+     id="path2"
+     style="display:none" />
+  <rect
+     x="20"
+     y="26"
+     width="24"
+     height="20"
+     rx="4"
+     fill="#ffffff"
+     id="rect2"
+     style="display:none" />
+  <circle
+     cx="32.065414"
+     cy="22.940001"
+     r="7.5"
+     fill="#1558b3"
+     id="circle2"
+     style="fill:#ffffff;fill-opacity:1;stroke-width:3.40922" />
 </svg>
