@@ -14,7 +14,6 @@
   const expiresEl = document.getElementById('expires-at');
 
   let watchId = null;
-  let socket = null;
   let session = null; // { shareId, ownerToken, key, expiresAt }
 
   function getUserId() {
@@ -34,24 +33,16 @@
     return `${location.origin}/s/${shareId}#key=${keyB64}`;
   }
 
-  function connectSocket() {
-    socket = new WebSocket(Api.wsUrl());
-    socket.addEventListener('open', () => setStatus('Sharing your location live.'));
-    socket.addEventListener('close', () => setStatus('Connection lost, retrying...'));
-    socket.addEventListener('error', () => setStatus('Connection error.'));
-  }
-
   async function publishPosition(position) {
-    if (!session || !socket || socket.readyState !== WebSocket.OPEN) return;
+    if (!session) return;
     const { latitude, longitude } = position.coords;
-    const { payload, iv } = await encryptLocation(session.key.key, latitude, longitude);
-    socket.send(JSON.stringify({
-      type: 'publish',
-      shareId: session.shareId,
-      ownerToken: session.ownerToken,
-      payload,
-      iv,
-    }));
+    try {
+      const { payload, iv } = await encryptLocation(session.key.key, latitude, longitude);
+      await Api.updateLocation(session.shareId, session.ownerToken, payload, iv);
+      setStatus('Sharing your location live.');
+    } catch (err) {
+      setStatus('Could not update location, retrying...');
+    }
   }
 
   function startWatching() {
@@ -72,10 +63,6 @@
     if (watchId !== null) {
       navigator.geolocation.clearWatch(watchId);
       watchId = null;
-    }
-    if (socket) {
-      socket.close();
-      socket = null;
     }
   }
 
@@ -111,7 +98,7 @@
     }));
 
     showActive();
-    connectSocket();
+    setStatus('Waiting for GPS fix...');
     startWatching();
   }
 
@@ -134,7 +121,7 @@
     };
 
     showActive();
-    connectSocket();
+    setStatus('Waiting for GPS fix...');
     startWatching();
   }
 

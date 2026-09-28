@@ -23,8 +23,13 @@ const Api = {
     });
   },
 
-  wsUrl() {
-    const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
-    return `${proto}//${location.host}/ws`;
+  async updateLocation(shareId, ownerToken, payload, iv) {
+    const res = await fetch(`/api/shares/${encodeURIComponent(shareId)}/location`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ownerToken, payload, iv }),
+    });
+    if (!res.ok) throw new Error('Failed to update location');
+    return res.json();
   },
 };

@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Let /api/* be handled by its own .htaccess (front controller) — don't touch it here.
+RewriteRule ^api/ - [L]
+
+# Serve existing files/directories as-is (css, js, img, index.html, share.html, favicons, ...).
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Share links: /s/{shareId} is a client-side route, always serve share.html for it.
+RewriteRule ^s/[^/]+/?$ /share.html [L]
+
+# Anything else falls back to the start page.
+RewriteRule ^ /index.html [L]

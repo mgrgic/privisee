@@ -1,10 +1,9 @@
 {
     "name": "privisee/backend",
-    "description": "privIsee backend: REST API + WebSocket location relay",
+    "description": "privIsee backend: REST API for encrypted location shares. No runtime dependencies; this file exists only so editors resolve the PrivIsee\\ namespace (see src/autoload.php for the actual autoloader used at runtime).",
     "type": "project",
     "require": {
-        "php": ">=8.2",
-        "cboden/ratchet": "^0.4.4"
+        "php": ">=8.2"
     },
     "autoload": {
         "psr-4": {

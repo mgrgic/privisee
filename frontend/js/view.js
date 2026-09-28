@@ -1,4 +1,6 @@
 (function () {
+  const POLL_INTERVAL_MS = 4000;
+
   const statusEl = document.getElementById('status');
   const mapEl = document.getElementById('map');
 
@@ -40,6 +42,34 @@
     ensureMap(lat, lon);
     marker.setLatLng([lat, lon]);
     map.panTo([lat, lon]);
+  }
+
+  function startPolling(shareId, key, lastUpdatedAt) {
+    const intervalId = setInterval(async () => {
+      let share;
+      try {
+        share = await Api.getShare(shareId);
+      } catch (e) {
+        return; // best effort, try again next tick
+      }
+
+      if (!share.active) {
+        setStatus('This location share has ended or expired.');
+        clearInterval(intervalId);
+        return;
+      }
+
+      if (share.payload && share.iv && share.updatedAt !== lastUpdatedAt) {
+        lastUpdatedAt = share.updatedAt;
+        try {
+          const { lat, lon } = await decryptLocation(key, share.payload, share.iv);
+          updateMarker(lat, lon);
+          setStatus(`Live — last updated ${new Date(share.updatedAt + 'Z').toLocaleTimeString()}`);
+        } catch (e) {
+          // ignore malformed/undecryptable update
+        }
+      }
+    }, POLL_INTERVAL_MS);
   }
 
   async function main() {
@@ -86,22 +116,7 @@
 
     if (!share.active) return;
 
-    const socket = new WebSocket(Api.wsUrl());
-    socket.addEventListener('open', () => {
-      socket.send(JSON.stringify({ type: 'subscribe', shareId }));
-    });
-    socket.addEventListener('message', async (event) => {
-      const data = JSON.parse(event.data);
-      if (data.type !== 'update' || data.shareId !== shareId) return;
-      try {
-        const { lat, lon } = await decryptLocation(key, data.payload, data.iv);
-        updateMarker(lat, lon);
-        setStatus(`Live — last updated ${new Date().toLocaleTimeString()}`);
-      } catch (e) {
-        // ignore malformed/undecryptable update
-      }
-    });
-    socket.addEventListener('close', () => setStatus('Connection lost, refresh to reconnect.'));
+    startPolling(shareId, key, share.updatedAt);
   }
 
   main();

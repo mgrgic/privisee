@@ -35,23 +35,6 @@ services:
     ports:
       - "8080:8080"
 
-  websocket:
-    build: ./backend
-    restart: unless-stopped
-    depends_on:
-      mysql:
-        condition: service_healthy
-    environment:
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_NAME: ${MYSQL_DATABASE:-privisee}
-      DB_USER: ${MYSQL_USER:-privisee}
-      DB_PASSWORD: ${MYSQL_PASSWORD:-changeme}
-      WS_PORT: ${WS_PORT:-8081}
-    command: ["php", "bin/websocket-server.php"]
-    ports:
-      - "8081:8081"
-
   housekeeping:
     build: ./backend
     restart: unless-stopped
@@ -81,7 +64,6 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
-      - websocket
     ports:
       - "8000:80"
 
