@@ -13,8 +13,8 @@
 <body>
   <div class="app">
     <div class="app-header">
-      <div class="logo">privIsee<span class="dot">.</span></div>
-      <a class="source-link" href="https://github.com/mgrgic/privisee/" target="_blank" rel="noopener noreferrer">[ source ]</a>
+      <div class="logo">priv<span style="color: var(--accent-hover); font-family: Consolas,serif">&nbsp;I&nbsp;</span>see<span class="dot">. [:privacy]</span></div>
+      <a class="source-link" href="https://github.com/mgrgic/privisee/" target="_blank" rel="noopener noreferrer">[ open source ]</a>
     </div>
 
     <div class="radar">
@@ -65,11 +65,15 @@
         </div>
         <div class="how-row">
           <span class="num">02</span>
-          <span class="txt">Each GPS fix is encrypted before it leaves your phone.</span>
+          <span class="txt">Each GPS location update is encrypted before it leaves your phone.</span>
         </div>
         <div class="how-row">
           <span class="num">03</span>
-          <span class="txt">Your friend's browser decrypts it. The server never holds the key.</span>
+          <span class="txt">The server hosts just encrypted location data.</span>
+        </div>
+        <div class="how-row">
+          <span class="num">04</span>
+          <span class="txt">Your friend's browser decrypts your location. The server never holds the key.</span>
         </div>
         <button id="how-toggle-close" class="how-close" type="button">[ − close ]</button>
       </div>

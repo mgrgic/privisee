@@ -60,10 +60,11 @@ a {
 .logo {
   font: 700 18px 'Space Grotesk', sans-serif;
   letter-spacing: -0.02em;
+  color: var(--accent);
 }
 
 .logo .dot {
-  color: var(--accent);
+  color: white;
 }
 
 .source-link {
@@ -439,6 +440,7 @@ body.viewer {
 
 .viewer-topbar .logo {
   font-size: 17px;
+  padding-left: 2em;
 }
 
 .e2e-pill {
