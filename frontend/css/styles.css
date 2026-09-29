@@ -21,7 +21,7 @@ html, body {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: linear-gradient(160deg, #fff7ed 0%, #fdeee0 35%, #fbe4cf 70%, #f7d9bc 100%);
+  background: linear-gradient(120deg, #fff7ed 0%, #fdeee0 35%, #fbe4cf 70%, #2b5e8f 100%);
   background-attachment: fixed;
   color: var(--text);
 }
@@ -197,13 +197,13 @@ button {
 }
 
 .e2e-label {
-  font: 600 11px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font: 700 15px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   fill: var(--text);
   text-anchor: middle;
 }
 
 .e2e-sub {
-  font: 400 9.5px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font: 400 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   fill: var(--muted);
   text-anchor: middle;
 }
@@ -211,8 +211,8 @@ button {
 .e2e-guide {
   fill: none;
   stroke: var(--border);
-  stroke-width: 2;
-  stroke-dasharray: 4 7;
+  stroke-width: 2.4;
+  stroke-dasharray: 5 8;
   opacity: 0.7;
   animation: e2eMarch 1.1s linear infinite;
 }
@@ -238,7 +238,7 @@ button {
 
 @keyframes e2eFloat {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  50% { transform: translateY(-7px); }
 }
 
 .e2e-ping {
@@ -248,8 +248,8 @@ button {
 }
 
 @keyframes e2ePing {
-  0% { r: 4; opacity: 0.7; }
-  100% { r: 13; opacity: 0; }
+  0% { r: 5.5; opacity: 0.7; }
+  100% { r: 19; opacity: 0; }
 }
 
 .e2e-legend {
