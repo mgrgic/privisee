@@ -70,12 +70,12 @@
           </rect>
 
           <!-- guide paths -->
-          <path class="e2e-guide" d="M50,79 C100,39 148,39 198,79" />
-          <path class="e2e-guide" d="M268,79 C310,129 368,129 408,79" />
-          <path class="e2e-guide e2e-guide-key" d="M24,15 C150,-15 310,-15 434,15" />
+          <path class="e2e-guide" d="M86,79 C124,39 160,39 198,79" />
+          <path class="e2e-guide" d="M268,79 C296,129 335,129 362,79" />
+          <path class="e2e-guide e2e-guide-key" d="M60,15 C161,-15 289,-15 388,15" />
 
           <!-- You -->
-          <g transform="translate(2,40)">
+          <g transform="translate(38,40)">
             <g class="e2e-float">
               <rect x="0" y="0" width="46" height="78" rx="9" fill="var(--card)" stroke="var(--primary)" stroke-width="3" />
               <rect x="5" y="8" width="36" height="54" rx="4" fill="var(--bg)" />
@@ -89,7 +89,7 @@
                 <rect x="9.5" y="0.7" width="2.2" height="4.9" fill="var(--accent)" />
               </g>
               <text class="e2e-label" x="23" y="104">You</text>
-              <text class="e2e-sub" x="23" y="120">generates the key</text>
+              <text class="e2e-sub" x="23" y="120">generates the URL</text>
             </g>
           </g>
 
@@ -120,7 +120,7 @@
           </g>
 
           <!-- Friend -->
-          <g transform="translate(410,40)">
+          <g transform="translate(364,40)">
             <g class="e2e-float-delayed">
               <rect x="0" y="0" width="46" height="78" rx="9" fill="var(--card)" stroke="var(--primary)" stroke-width="3" />
               <rect x="5" y="8" width="36" height="54" rx="4" fill="var(--bg)" />
@@ -144,19 +144,19 @@
 
           <!-- traveling ciphertext: you -> server -->
           <use href="#e2e-capsule-cipher" width="40" height="24" x="-20" y="-12" opacity="0">
-            <animateMotion begin="e2e-clock.begin+0.3s" dur="2s" fill="freeze" path="M50,79 C100,39 148,39 198,79" />
+            <animateMotion begin="e2e-clock.begin+0.3s" dur="2s" fill="freeze" path="M86,79 C124,39 160,39 198,79" />
             <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" begin="e2e-clock.begin+0.3s" dur="2s" fill="freeze" />
           </use>
 
           <!-- traveling ciphertext: server -> friend -->
           <use href="#e2e-capsule-cipher" width="40" height="24" x="-20" y="-12" opacity="0">
-            <animateMotion begin="e2e-clock.begin+2.6s" dur="2s" fill="freeze" path="M268,79 C310,129 368,129 408,79" />
+            <animateMotion begin="e2e-clock.begin+2.6s" dur="2s" fill="freeze" path="M268,79 C296,129 335,129 362,79" />
             <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" begin="e2e-clock.begin+2.6s" dur="2s" fill="freeze" />
           </use>
 
           <!-- traveling key: you -> friend, bypassing the server -->
           <use href="#e2e-capsule-key" width="40" height="24" x="-20" y="-12" opacity="0">
-            <animateMotion begin="e2e-clock.begin+0.5s" dur="4.3s" fill="freeze" path="M24,15 C150,-15 310,-15 434,15" />
+            <animateMotion begin="e2e-clock.begin+0.5s" dur="4.3s" fill="freeze" path="M60,15 C161,-15 289,-15 388,15" />
             <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.06;0.9;1" begin="e2e-clock.begin+0.5s" dur="4.3s" fill="freeze" />
           </use>
         </svg>
