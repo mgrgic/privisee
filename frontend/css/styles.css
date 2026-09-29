@@ -90,27 +90,34 @@ a {
 
 .radar-ring {
   position: absolute;
+  top: 50%;
+  left: 50%;
   border-radius: 50%;
   border: 1px solid var(--line);
 }
 
-.radar-ring-outer { width: 250px; height: 250px; }
-.radar-ring-mid { width: 170px; height: 170px; }
-.radar-ring-inner { width: 90px; height: 90px; }
+.radar-ring-outer { width: 250px; height: 250px; margin: -125px 0 0 -125px; }
+.radar-ring-mid { width: 170px; height: 170px; margin: -85px 0 0 -85px; }
+.radar-ring-inner { width: 90px; height: 90px; margin: -45px 0 0 -45px; }
 
 .radar-cross-h,
 .radar-cross-v {
   position: absolute;
+  top: 50%;
+  left: 50%;
   background: var(--line);
 }
 
-.radar-cross-h { width: 250px; height: 1px; }
-.radar-cross-v { width: 1px; height: 250px; }
+.radar-cross-h { width: 250px; height: 1px; margin: -0.5px 0 0 -125px; }
+.radar-cross-v { width: 1px; height: 250px; margin: -125px 0 0 -0.5px; }
 
 .radar-pulse {
   position: absolute;
+  top: 50%;
+  left: 50%;
   width: 250px;
   height: 250px;
+  margin: -125px 0 0 -125px;
   border-radius: 50%;
   border: 2px solid var(--accent);
   animation: radar-ring 2.4s ease-out infinite;
@@ -122,8 +129,11 @@ a {
 
 .radar-dot {
   position: absolute;
+  top: 50%;
+  left: 50%;
   width: 14px;
   height: 14px;
+  margin: -7px 0 0 -7px;
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 24px var(--accent);
@@ -131,7 +141,10 @@ a {
 
 .radar-caption {
   position: absolute;
+  left: 0;
+  right: 0;
   bottom: 4px;
+  text-align: center;
   font: 400 11px 'Space Mono', monospace;
   letter-spacing: 0.08em;
   color: var(--muted);
@@ -493,8 +506,11 @@ body.viewer {
 
 .viewer-marker-ring {
   position: absolute;
+  top: 50%;
+  left: 50%;
   width: 120px;
   height: 120px;
+  margin: -60px 0 0 -60px;
   border-radius: 50%;
   border: 2px solid var(--accent);
   animation: radar-ring 2.4s ease-out infinite;
@@ -502,8 +518,11 @@ body.viewer {
 
 .viewer-marker-halo {
   position: absolute;
+  top: 50%;
+  left: 50%;
   width: 44px;
   height: 44px;
+  margin: -22px 0 0 -22px;
   border-radius: 50%;
   background: rgba(200, 242, 90, 0.18);
 }
