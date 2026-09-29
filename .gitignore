@@ -1,3 +1,4 @@
 /backend/vendor/
+/deploy/deploy.sh
 /.env
 *.log

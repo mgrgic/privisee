@@ -14,7 +14,7 @@
   <div class="app">
     <div class="brand">
       <img src="img/logo.svg" alt="" class="logo" width="40" height="40" />
-      <h1>privIsee</h1>
+        <h1>priv<span style="color: #1a73e8">I</span>see [:privacy]</h1>
     </div>
     <p class="tagline">Share your live location — end-to-end encrypted. We never see where you are.</p>
     <p id="status" class="status"></p>
@@ -41,6 +41,146 @@
       </div>
       <p class="meta">Sharing ends: <span id="expires-at"></span></p>
       <button id="stop-btn" type="button" class="danger">Stop sharing</button>
+    </section>
+
+    <section class="card e2e-explainer">
+      <h2 class="e2e-heading">How the encryption works</h2>
+      <div class="e2e-diagram">
+        <svg viewBox="0 -20 760 260" role="img" aria-labelledby="e2eTitle e2eDesc" xmlns="http://www.w3.org/2000/svg">
+          <title id="e2eTitle">End-to-end encryption flow</title>
+          <desc id="e2eDesc">Your browser generates a key and encrypts your location. The server only ever stores ciphertext. The key travels straight to whoever opens your link, never through the server, so only they can decrypt it.</desc>
+
+          <defs>
+            <symbol id="e2e-capsule-cipher" viewBox="-15 -9 30 18">
+              <rect x="-15" y="-9" width="30" height="18" rx="9" fill="var(--card)" stroke="var(--primary)" stroke-width="2" />
+              <path d="M-4,-2 v-2 a4 4 0 0 1 8 0 v2" fill="none" stroke="var(--primary-dark)" stroke-width="1.6" stroke-linecap="round" />
+              <rect x="-5.5" y="-2" width="11" height="7" rx="2" fill="var(--primary-dark)" />
+            </symbol>
+            <symbol id="e2e-capsule-key" viewBox="-15 -9 30 18">
+              <rect x="-15" y="-9" width="30" height="18" rx="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2" />
+              <circle cx="-5" cy="0" r="4" fill="none" stroke="var(--accent)" stroke-width="1.8" />
+              <rect x="-1.5" y="-1.3" width="9" height="2.6" fill="var(--accent)" />
+              <rect x="4" y="0.5" width="2" height="3.2" fill="var(--accent)" />
+              <rect x="7" y="0.5" width="2" height="3.6" fill="var(--accent)" />
+            </symbol>
+          </defs>
+
+          <rect id="e2e-clock" width="1" height="1" opacity="0">
+            <animate attributeName="opacity" values="0;0" dur="6.8s" repeatCount="indefinite" />
+          </rect>
+
+          <!-- guide paths -->
+          <path class="e2e-guide" d="M48,109 C160,55 260,55 352,109" />
+          <path class="e2e-guide" d="M408,109 C480,170 620,170 696,109" />
+          <path class="e2e-guide e2e-guide-key" d="M44,95 C260,15 480,15 700,95" />
+
+          <!-- You -->
+          <g transform="translate(10,80)">
+            <g class="e2e-float">
+              <rect x="0" y="0" width="34" height="58" rx="7" fill="var(--card)" stroke="var(--primary)" stroke-width="2.5" />
+              <rect x="4" y="6" width="26" height="40" rx="3" fill="var(--bg)" />
+              <circle class="e2e-ping" cx="17" cy="29" r="4" fill="none" stroke="var(--primary)" stroke-width="1.6" />
+              <circle cx="17" cy="29" r="3.5" fill="var(--primary)" />
+              <g transform="translate(17,-14)">
+                <title>A random AES-256 key is generated in your browser and never uploaded</title>
+                <circle cx="-5" cy="0" r="3.2" fill="none" stroke="var(--accent)" stroke-width="1.6" />
+                <rect x="-1.8" y="-1" width="7" height="2" fill="var(--accent)" />
+                <rect x="3" y="0.4" width="1.6" height="2.4" fill="var(--accent)" />
+                <rect x="5.2" y="0.4" width="1.6" height="2.8" fill="var(--accent)" />
+              </g>
+              <text class="e2e-label" x="17" y="78">You</text>
+              <text class="e2e-sub" x="17" y="92">generates the key</text>
+            </g>
+          </g>
+
+          <!-- Server -->
+          <g transform="translate(355,80)">
+            <rect x="0" y="0" width="50" height="58" rx="6" fill="var(--card)" stroke="var(--border)" stroke-width="2.5" />
+            <line x1="0" y1="20" x2="50" y2="20" stroke="var(--border)" stroke-width="1.5" />
+            <line x1="0" y1="40" x2="50" y2="40" stroke="var(--border)" stroke-width="1.5" />
+            <circle cx="8" cy="10" r="2" fill="var(--muted)" />
+            <circle cx="8" cy="30" r="2" fill="var(--muted)" />
+            <circle cx="8" cy="50" r="2" fill="var(--muted)" />
+            <g transform="translate(25,-16)">
+              <title>The server never receives the decryption key — it cannot see your position</title>
+              <ellipse cx="0" cy="0" rx="7" ry="4" fill="none" stroke="var(--muted)" stroke-width="1.6" />
+              <circle cx="0" cy="0" r="1.8" fill="var(--muted)" />
+              <line x1="-7" y1="6" x2="7" y2="-6" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" />
+            </g>
+            <g transform="translate(43,4)">
+              <g class="e2e-lock-pulse">
+                <rect x="-8" y="-2" width="16" height="14" rx="2" fill="var(--muted)" />
+                <path d="M-5,-2 v-4 a5 5 0 0 1 10 0 v4" fill="none" stroke="var(--muted)" stroke-width="2.4" stroke-linecap="round" />
+                <circle cx="0" cy="4" r="1.6" fill="var(--card)" />
+                <animateTransform attributeName="transform" type="scale" values="1;1.35;1" keyTimes="0;0.5;1" begin="e2e-clock.begin+2.3s" dur="0.5s" fill="freeze" />
+              </g>
+            </g>
+            <text class="e2e-label" x="25" y="78">Server</text>
+            <text class="e2e-sub" x="25" y="92">stores ciphertext only</text>
+          </g>
+
+          <!-- Friend -->
+          <g transform="translate(700,80)">
+            <g class="e2e-float-delayed">
+              <rect x="0" y="0" width="34" height="58" rx="7" fill="var(--card)" stroke="var(--primary)" stroke-width="2.5" />
+              <rect x="4" y="6" width="26" height="40" rx="3" fill="var(--bg)" />
+              <g transform="translate(17,26)">
+                <g class="e2e-pin-reveal" opacity="0">
+                  <title>Decrypted locally using the key from your link — the server was never involved</title>
+                  <circle cx="0" cy="-3" r="2" fill="none" stroke="var(--primary)" stroke-width="1.6">
+                    <animate attributeName="r" values="2;14" begin="e2e-clock.begin+4.6s" dur="1s" fill="freeze" />
+                    <animate attributeName="opacity" values="0.7;0" begin="e2e-clock.begin+4.6s" dur="1s" fill="freeze" />
+                  </circle>
+                  <path d="M0,-9 C4,-9 6,-6 6,-3 C6,1 0,9 0,9 C0,9 -6,1 -6,-3 C-6,-6 -4,-9 0,-9 Z" fill="var(--primary)" />
+                  <circle cx="0" cy="-3" r="2" fill="white" />
+                  <animateTransform attributeName="transform" type="scale" values="0.3;1.15;1" keyTimes="0;0.7;1" begin="e2e-clock.begin+4.6s" dur="0.5s" fill="freeze" />
+                  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.05;0.9;1" begin="e2e-clock.begin+4.6s" dur="1.9s" fill="freeze" />
+                </g>
+              </g>
+              <text class="e2e-label" x="17" y="78">Friend</text>
+              <text class="e2e-sub" x="17" y="92">sees your position</text>
+            </g>
+          </g>
+
+          <!-- traveling ciphertext: you -> server -->
+          <use href="#e2e-capsule-cipher" width="30" height="18" opacity="0">
+            <animateMotion begin="e2e-clock.begin+0.3s" dur="2s" fill="freeze" path="M48,109 C160,55 260,55 352,109" />
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" begin="e2e-clock.begin+0.3s" dur="2s" fill="freeze" />
+          </use>
+
+          <!-- traveling ciphertext: server -> friend -->
+          <use href="#e2e-capsule-cipher" width="30" height="18" opacity="0">
+            <animateMotion begin="e2e-clock.begin+2.6s" dur="2s" fill="freeze" path="M408,109 C480,170 620,170 696,109" />
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" begin="e2e-clock.begin+2.6s" dur="2s" fill="freeze" />
+          </use>
+
+          <!-- traveling key: you -> friend, bypassing the server -->
+          <use href="#e2e-capsule-key" width="30" height="18" opacity="0">
+            <animateMotion begin="e2e-clock.begin+0.5s" dur="4.3s" fill="freeze" path="M44,95 C260,15 480,15 700,95" />
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.06;0.9;1" begin="e2e-clock.begin+0.5s" dur="4.3s" fill="freeze" />
+          </use>
+        </svg>
+      </div>
+
+      <ul class="e2e-legend">
+        <li><span class="swatch"></span> encrypted location</li>
+        <li><span class="swatch swatch-key"></span> secret key (URL fragment only)</li>
+      </ul>
+
+      <ol class="e2e-steps">
+        <li><strong>Your browser</strong> generates a random AES-256 key locally and puts it only in the share link's URL fragment, which browsers never send to any server.</li>
+        <li><strong>Every GPS update</strong> is encrypted on your device before it's sent — the backend and its database only ever store ciphertext.</li>
+        <li><strong>Anyone with your link</strong> decrypts each update locally in their own browser, so only they — never the server — can see where you are.</li>
+      </ol>
+    </section>
+
+    <section class="card github-card">
+      <a class="github-link" href="https://github.com/mgrgic/privisee/" target="_blank" rel="noopener noreferrer">
+        <svg class="github-icon" viewBox="0 0 16 16" aria-hidden="true">
+          <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+        </svg>
+        <span>View source on GitHub</span>
+      </a>
     </section>
   </div>
 
