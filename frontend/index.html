@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>privIsee — share your location privately</title>
+  <title>privIsee — be findable, not trackable</title>
   <link rel="icon" type="image/svg+xml" href="img/logo.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16.png" />
@@ -12,180 +12,97 @@
 </head>
 <body>
   <div class="app">
-    <div class="brand">
-      <img src="img/logo.svg" alt="" class="logo" width="40" height="40" />
-        <h1>priv<span style="color: #1a73e8; font-family: 'Courier New'">I</span>see [:privacy]</h1>
+    <div class="app-header">
+      <div class="logo">privIsee<span class="dot">.</span></div>
+      <a class="source-link" href="https://github.com/mgrgic/privisee/" target="_blank" rel="noopener noreferrer">[ source ]</a>
     </div>
-    <p class="tagline">Share your live location — end-to-end encrypted. We never see where you are.</p>
+
+    <div class="radar">
+      <div class="radar-ring radar-ring-outer"></div>
+      <div class="radar-ring radar-ring-mid"></div>
+      <div class="radar-ring radar-ring-inner"></div>
+      <div class="radar-cross-h"></div>
+      <div class="radar-cross-v"></div>
+      <div id="radar-pulses" hidden>
+        <div class="radar-pulse"></div>
+        <div class="radar-pulse radar-pulse-delayed"></div>
+      </div>
+      <div class="radar-dot"></div>
+      <div id="radar-caption-idle" class="radar-caption">OFF THE GRID</div>
+      <div id="radar-caption-live" class="radar-caption live" hidden>BROADCASTING · ENCRYPTED</div>
+    </div>
+
     <p id="status" class="status"></p>
 
-    <section id="start-section" class="card">
+    <section id="start-section">
+      <div class="hero">
+        <h1>Be findable.<br>Not trackable.</h1>
+        <p>Your friends see you. The server sees noise.</p>
+      </div>
+
       <form id="start-form">
-        <label for="duration">How long should you be locatable?</label>
-        <div class="duration-row">
-          <input type="number" id="duration" min="1" value="30" required />
-          <select id="duration-unit">
-            <option value="minutes" selected>Minutes</option>
-            <option value="hours">Hours</option>
-          </select>
+        <div class="duration">
+          <div class="duration-row">
+            <span class="duration-label">DURATION</span>
+            <span id="duration-value" class="duration-value mono">1h</span>
+          </div>
+          <input type="range" id="duration-slider" min="0" max="6" step="1" value="2" />
+          <div class="duration-ticks">
+            <span>15m</span><span>30m</span><span>1h</span><span>2h</span><span>4h</span><span>8h</span><span>24h</span>
+          </div>
         </div>
-        <button type="submit" class="primary">Start sharing</button>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary">Go live</button>
+        </div>
       </form>
-    </section>
 
-    <section id="active-section" class="card" hidden>
-      <label>Share this link</label>
-      <div class="share-url-row">
-        <input id="share-url" type="text" readonly />
-        <button id="copy-btn" type="button">Copy</button>
+      <button id="how-toggle-open" class="link-toggle" type="button">[ + how the encryption works ]</button>
+      <div id="how-panel" class="how-it-works" hidden>
+        <div class="how-row">
+          <span class="num">01</span>
+          <span class="txt">Your phone makes a secret key. It's stored only after the <span class="hash">#</span> in the link.</span>
+        </div>
+        <div class="how-row">
+          <span class="num">02</span>
+          <span class="txt">Each GPS fix is encrypted before it leaves your phone.</span>
+        </div>
+        <div class="how-row">
+          <span class="num">03</span>
+          <span class="txt">Your friend's browser decrypts it. The server never holds the key.</span>
+        </div>
+        <button id="how-toggle-close" class="how-close" type="button">[ − close ]</button>
       </div>
-      <p class="meta">Sharing ends: <span id="expires-at"></span></p>
-      <button id="stop-btn" type="button" class="danger">Stop sharing</button>
     </section>
 
-    <section class="card e2e-explainer">
-      <h2 class="e2e-heading">How the encryption works</h2>
-      <div class="e2e-diagram">
-        <svg viewBox="0 -24 460 200" role="img" aria-labelledby="e2eTitle e2eDesc" xmlns="http://www.w3.org/2000/svg">
-          <title id="e2eTitle">End-to-end encryption flow</title>
-          <desc id="e2eDesc">Your browser generates a key and encrypts your location. The server only ever stores ciphertext. The key travels straight to whoever opens your link, never through the server, so only they can decrypt it.</desc>
+    <section id="active-section" hidden>
+      <div class="live-panel">
+        <div class="countdown">
+          <span id="countdown-value" class="countdown-value">0:00</span>
+          <span class="countdown-label">UNTIL THE LINK GOES DARK</span>
+        </div>
 
-          <defs>
-            <symbol id="e2e-capsule-cipher" viewBox="-20 -12 40 24">
-              <rect x="-20" y="-12" width="40" height="24" rx="12" fill="var(--card)" stroke="var(--primary)" stroke-width="2.2" />
-              <path d="M-5.4,-2.7 v-2.7 a5.4 5.4 0 0 1 10.8 0 v2.7" fill="none" stroke="var(--primary-dark)" stroke-width="2.1" stroke-linecap="round" />
-              <rect x="-7.4" y="-2.7" width="14.9" height="9.5" rx="2.7" fill="var(--primary-dark)" />
-            </symbol>
-            <symbol id="e2e-capsule-key" viewBox="-20 -12 40 24">
-              <rect x="-20" y="-12" width="40" height="24" rx="12" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2.2" />
-              <circle cx="-6.8" cy="0" r="5.4" fill="none" stroke="var(--accent)" stroke-width="2.4" />
-              <rect x="-2" y="-1.8" width="12.2" height="3.5" fill="var(--accent)" />
-              <rect x="5.4" y="0.7" width="2.7" height="4.3" fill="var(--accent)" />
-              <rect x="9.5" y="0.7" width="2.2" height="4.9" fill="var(--accent)" />
-            </symbol>
-          </defs>
+        <div class="stat-grid">
+          <div class="stat-tile">
+            <span class="stat-label">UPDATES SENT</span>
+            <span id="updates-sent" class="stat-value">0</span>
+          </div>
+          <div class="stat-tile">
+            <span class="stat-label">GPS ACCURACY</span>
+            <span id="gps-accuracy" class="stat-value">—</span>
+          </div>
+        </div>
 
-          <rect id="e2e-clock" width="1" height="1" opacity="0">
-            <animate attributeName="opacity" values="0;0" dur="6.8s" repeatCount="indefinite" />
-          </rect>
-
-          <!-- guide paths -->
-          <path class="e2e-guide" d="M86,79 C124,39 160,39 198,79" />
-          <path class="e2e-guide" d="M268,79 C296,129 335,129 362,79" />
-          <path class="e2e-guide e2e-guide-key" d="M60,15 C161,-15 289,-15 388,15" />
-
-          <!-- You -->
-          <g transform="translate(38,40)">
-            <g class="e2e-float">
-              <rect x="0" y="0" width="46" height="78" rx="9" fill="var(--card)" stroke="var(--primary)" stroke-width="3" />
-              <rect x="5" y="8" width="36" height="54" rx="4" fill="var(--bg)" />
-              <g transform="translate(23,22)">
-                <title>A random AES-256 key is generated in your browser and never uploaded</title>
-                <circle cx="-6.8" cy="0" r="5.4" fill="none" stroke="var(--accent)" stroke-width="2.2" />
-                <rect x="-2" y="-1.8" width="12.2" height="3.5" fill="var(--accent)" />
-                <rect x="5.4" y="0.7" width="2.7" height="4.3" fill="var(--accent)" />
-                <rect x="9.5" y="0.7" width="2.2" height="4.9" fill="var(--accent)" />
-              </g>
-              <text class="e2e-label" x="23" y="104">You</text>
-              <text class="e2e-sub" x="23" y="120">generates the URL</text>
-              <text class="e2e-sub" x="23" y="136">updates the location</text>
-            </g>
-          </g>
-
-          <!-- Server -->
-          <g transform="translate(200,40)">
-            <rect x="0" y="0" width="66" height="78" rx="8" fill="var(--card)" stroke="var(--border)" stroke-width="3" />
-            <line x1="0" y1="26" x2="66" y2="26" stroke="var(--border)" stroke-width="2" />
-            <line x1="0" y1="52" x2="66" y2="52" stroke="var(--border)" stroke-width="2" />
-            <circle cx="11" cy="13" r="2.7" fill="var(--muted)" />
-            <circle cx="11" cy="39" r="2.7" fill="var(--muted)" />
-            <circle cx="11" cy="65" r="2.7" fill="var(--muted)" />
-            <g transform="translate(33,-19)">
-              <title>The server never receives the decryption key — it cannot see your position</title>
-              <ellipse cx="0" cy="0" rx="9.5" ry="5.4" fill="none" stroke="var(--muted)" stroke-width="2.2" />
-              <circle cx="0" cy="0" r="2.4" fill="var(--muted)" />
-              <line x1="-9.5" y1="8.1" x2="9.5" y2="-8.1" stroke="var(--danger)" stroke-width="2.7" stroke-linecap="round" />
-            </g>
-            <g transform="translate(58,5)">
-              <g class="e2e-lock-pulse">
-                <rect x="-10.8" y="-2.7" width="21.6" height="18.9" rx="2.7" fill="var(--muted)" />
-                <path d="M-6.75,-2.7 v-5.4 a6.75 6.75 0 0 1 13.5 0 v5.4" fill="none" stroke="var(--muted)" stroke-width="3.2" stroke-linecap="round" />
-                <circle cx="0" cy="5.4" r="2.2" fill="var(--card)" />
-                <animateTransform attributeName="transform" type="scale" values="1;1.35;1" keyTimes="0;0.5;1" begin="e2e-clock.begin+2.3s" dur="0.5s" fill="freeze" />
-              </g>
-            </g>
-            <text class="e2e-label" x="33" y="104">Server</text>
-            <text class="e2e-sub" x="33" y="120">stores ciphertext only</text>
-          </g>
-
-          <!-- Friend -->
-          <g transform="translate(364,40)">
-            <g class="e2e-float-delayed">
-              <rect x="0" y="0" width="46" height="78" rx="9" fill="var(--card)" stroke="var(--primary)" stroke-width="3" />
-              <rect x="5" y="8" width="36" height="54" rx="4" fill="var(--bg)" />
-              <g class="e2e-map" opacity="0.8">
-                <line x1="9" y1="16" x2="9" y2="58" stroke="var(--border)" stroke-width="2" stroke-linecap="round" />
-                <line x1="24" y1="10" x2="20" y2="60" stroke="var(--border)" stroke-width="2" stroke-linecap="round" />
-                <line x1="7" y1="30" x2="39" y2="26" stroke="var(--border)" stroke-width="1.6" stroke-linecap="round" />
-                <line x1="7" y1="46" x2="39" y2="50" stroke="var(--border)" stroke-width="1.6" stroke-linecap="round" />
-              </g>
-              <g transform="translate(23,35)">
-                <g class="e2e-pin-reveal" opacity="0">
-                  <title>Decrypted locally using the key from your link — the server was never involved</title>
-                  <!-- circle is not shown yet -->
-                  <circle cx="0" cy="0" r="5.5" fill="none" stroke="var(--primary)" stroke-width="1.8">
-                    <animate attributeName="r" values="5.5;19" begin="e2e-clock.begin+4.6s" dur="1s" fill="freeze" />
-                    <animate attributeName="opacity" values="0.7;0" begin="e2e-clock.begin+4.6s" dur="1s" fill="freeze" />
-                  </circle>
-                  <circle cx="0" cy="0" r="5" fill="var(--primary)" />
-                  <animateTransform attributeName="transform" type="scale" values="0.3;1.15;1" keyTimes="0;0.7;1" begin="e2e-clock.begin+4.6s" dur="0.5s" fill="freeze" />
-                  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.05;0.9;1" begin="e2e-clock.begin+4.6s" dur="1.9s" fill="freeze" />
-                </g>
-              </g>
-              <text class="e2e-label" x="23" y="104">Friend</text>
-              <text class="e2e-sub" x="23" y="120">sees your position</text>
-            </g>
-          </g>
-
-          <!-- traveling ciphertext: you -> server -->
-          <use href="#e2e-capsule-cipher" width="40" height="24" x="-20" y="-12" opacity="0">
-            <animateMotion begin="e2e-clock.begin+0.3s" dur="2s" fill="freeze" path="M86,79 C124,39 160,39 198,79" />
-            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" begin="e2e-clock.begin+0.3s" dur="2s" fill="freeze" />
-          </use>
-
-          <!-- traveling ciphertext: server -> friend -->
-          <use href="#e2e-capsule-cipher" width="40" height="24" x="-20" y="-12" opacity="0">
-            <animateMotion begin="e2e-clock.begin+2.6s" dur="2s" fill="freeze" path="M268,79 C296,129 335,129 362,79" />
-            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" begin="e2e-clock.begin+2.6s" dur="2s" fill="freeze" />
-          </use>
-
-          <!-- traveling key: you -> friend, bypassing the server -->
-          <use href="#e2e-capsule-key" width="40" height="24" x="-20" y="-12" opacity="0">
-            <animateMotion begin="e2e-clock.begin+0.5s" dur="4.3s" fill="freeze" path="M60,15 C161,-15 289,-15 388,15" />
-            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.06;0.9;1" begin="e2e-clock.begin+0.5s" dur="4.3s" fill="freeze" />
-          </use>
-        </svg>
+        <div class="cipher-box">
+          <div class="stat-label">LAST PACKET · WHAT THE SERVER GOT</div>
+          <div id="cipher-text" class="cipher-text">—</div>
+        </div>
       </div>
 
-      <ul class="e2e-legend">
-        <li><span class="swatch"></span> encrypted location</li>
-        <li><span class="swatch swatch-key"></span> secret key (URL fragment only)</li>
-      </ul>
-
-      <ol class="e2e-steps">
-        <li><strong>Your browser</strong> generates a random AES-256 key locally and puts it only in the share link's URL fragment, which browsers never send to any server.</li>
-        <li><strong>Every GPS update</strong> is encrypted on your device before it's sent — the backend and its database only ever store ciphertext.</li>
-        <li><strong>Anyone with your link</strong> decrypts each update locally in their own browser, so only they — never the server — can see where you are.</li>
-      </ol>
-    </section>
-
-    <section class="card github-card">
-      <a class="github-link" href="https://github.com/mgrgic/privisee/" target="_blank" rel="noopener noreferrer">
-        <svg class="github-icon" viewBox="0 0 16 16" aria-hidden="true">
-          <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
-        </svg>
-        <span>View source on GitHub</span>
-      </a>
+      <div class="live-footer">
+        <button id="copy-btn" type="button" class="btn-primary">Copy link</button>
+        <button id="stop-btn" type="button" class="btn-secondary">Go dark</button>
+      </div>
     </section>
   </div>
 
