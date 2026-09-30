@@ -1,0 +1,13 @@
+{
+  "appId": "com.privisee.app",
+  "appName": "privIsee",
+  "webDir": "www",
+  "backgroundColor": "#0B0D0C",
+  "android": {
+    "backgroundColor": "#0B0D0C"
+  },
+  "ios": {
+    "backgroundColor": "#0B0D0C",
+    "contentInset": "always"
+  }
+}

@@ -46,7 +46,8 @@
   }
 
   function buildShareUrl(shareId, keyB64) {
-    return `${location.origin}/s/${shareId}#key=${keyB64}`;
+    const origin = (window.PRIVISEE_CONFIG && window.PRIVISEE_CONFIG.publicShareOrigin) || location.origin;
+    return `${origin}/s/${shareId}#key=${keyB64}`;
   }
 
   function durationIndexToMinutes(index) {
@@ -88,9 +89,28 @@
     }
   }
 
-  function startWatching() {
+  async function requestNativeLocationPermission() {
+    // In the native app (mobile/), the OS location permission must be requested
+    // through the @capacitor/geolocation plugin before navigator.geolocation will
+    // report anything. On the plain website window.Capacitor is undefined and this
+    // is a no-op, so the browser's own permission prompt handles it as before.
+    const nativeGeo = window.Capacitor && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins.Geolocation;
+    if (!nativeGeo) return true;
+    try {
+      const status = await nativeGeo.requestPermissions();
+      return status.location === 'granted' || status.coarseLocation === 'granted';
+    } catch (_) {
+      return false;
+    }
+  }
+
+  async function startWatching() {
     if (!('geolocation' in navigator)) {
       setStatus('Geolocation is not supported by this browser.');
+      return;
+    }
+    if (!(await requestNativeLocationPermission())) {
+      setStatus('Location permission denied.');
       return;
     }
     watchId = navigator.geolocation.watchPosition(publishPosition, (err) => {
@@ -237,8 +257,20 @@
   copyBtn.addEventListener('click', async () => {
     if (!session) return;
     const url = buildShareUrl(session.shareId, session.key.exported);
+    // Inside the native iOS/Android app (mobile/), Capacitor injects window.Capacitor
+    // with native Share/Clipboard plugins that are more reliable than the web APIs
+    // running in a WebView. On the plain website, window.Capacitor is undefined and
+    // the code below falls through to navigator.share/clipboard unchanged.
+    const nativePlugins = window.Capacitor && window.Capacitor.isNativePlatform() ? window.Capacitor.Plugins : null;
 
-    if (navigator.share) {
+    if (nativePlugins) {
+      try {
+        await nativePlugins.Share.share({ title: 'privIsee', url });
+        return;
+      } catch (_) {
+        // user cancelled or share sheet failed, fall back to clipboard
+      }
+    } else if (navigator.share) {
       try {
         await navigator.share({ title: 'privIsee', url });
         return;
@@ -247,7 +279,11 @@
       }
     }
 
-    await navigator.clipboard.writeText(url);
+    if (nativePlugins) {
+      await nativePlugins.Clipboard.write({ string: url });
+    } else {
+      await navigator.clipboard.writeText(url);
+    }
     const original = copyBtn.textContent;
     copyBtn.textContent = 'Copied';
     setTimeout(() => { copyBtn.textContent = original; }, 1800);
