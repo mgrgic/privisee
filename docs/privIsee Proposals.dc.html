@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/ogcs-design-system-5d02a1ed-143f-44d3-9063-d66cb2c716e3/styles.css">
+<link rel="stylesheet" href="_ds/ogcs-design-system-5d02a1ed-143f-44d3-9063-d66cb2c716e3/fonts/fonts.css">
+<link rel="stylesheet" href="_ds/ogcs-design-system-5d02a1ed-143f-44d3-9063-d66cb2c716e3/tokens/colors.css">
+<link rel="stylesheet" href="_ds/ogcs-design-system-5d02a1ed-143f-44d3-9063-d66cb2c716e3/tokens/typography.css">
+<link rel="stylesheet" href="_ds/ogcs-design-system-5d02a1ed-143f-44d3-9063-d66cb2c716e3/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/ogcs-design-system-5d02a1ed-143f-44d3-9063-d66cb2c716e3/tokens/effects.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&amp;display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="_ds/ogcs-design-system-5d02a1ed-143f-44d3-9063-d66cb2c716e3/_ds_bundle.js"></script>
+<style>body{margin:0;background:#EFEEEB;font-family:var(--ogcs-font-sans);color:#373435}a{color:#BC0A29}a:hover{color:#9E1F1D}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.55)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}@keyframes pv-pulse{0%{box-shadow:0 0 0 0 rgba(47,125,79,.45)}100%{box-shadow:0 0 0 10px rgba(47,125,79,0)}}input[type=range]{accent-color:#BC0A29}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;family=Space+Grotesk:wght@400;500;700&amp;family=Space+Mono:wght@400;700&amp;display=swap">
+<style>@keyframes pv-ring{0%{transform:scale(.2);opacity:.9}100%{transform:scale(1);opacity:0}}@keyframes pv-blink{50%{opacity:.25}}</style>
+</helmet>
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">The full flow in the <a class="dv-oid" href="#2c">2c</a> radar look</span></div>
+<p style="margin:0 0 24px;max-width:760px;font:400 14px/1.55 system-ui,sans-serif;color:#555">Your screen (start → live) and what your friend sees: decrypting, then the live map, then the expired link. The map uses a dark Esri basemap centred on Offenburg.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="3a">
+<div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>You — start, then live (clickable)</div>
+<div class="dv-card" style="width:390px;min-height:844px;background:#0B0D0C;color:#E9EEE6;font-family:'Space Grotesk',system-ui,sans-serif;display:flex;flex-direction:column;border-color:#0B0D0C">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:20px 22px">
+<div style="font:700 18px 'Space Grotesk',sans-serif;letter-spacing:-.02em">privIsee<span style="color:#C8F25A">.</span></div>
+<a href="https://github.com/mgrgic/privisee/" style="font:400 11px 'Space Mono',monospace;color:#8A948C;text-decoration:none">[ source ]</a>
+</div>
+<div style="position:relative;height:260px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+<div style="position:absolute;width:250px;height:250px;border-radius:50%;border:1px solid #1F2621"></div>
+<div style="position:absolute;width:170px;height:170px;border-radius:50%;border:1px solid #1F2621"></div>
+<div style="position:absolute;width:90px;height:90px;border-radius:50%;border:1px solid #1F2621"></div>
+<div style="position:absolute;width:250px;height:1px;background:#1F2621"></div>
+<div style="position:absolute;width:1px;height:250px;background:#1F2621"></div>
+<sc-if value="{{ gOn }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;width:250px;height:250px;border-radius:50%;border:2px solid #C8F25A;animation:pv-ring 2.4s ease-out infinite"></div>
+<div style="position:absolute;width:250px;height:250px;border-radius:50%;border:2px solid #C8F25A;animation:pv-ring 2.4s ease-out 1.2s infinite"></div>
+</sc-if>
+<div style="position:absolute;width:14px;height:14px;border-radius:50%;background:#C8F25A;box-shadow:0 0 24px #C8F25A"></div>
+<sc-if value="{{ gOff }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:4px;font:400 11px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">OFF THE GRID</div></sc-if>
+<sc-if value="{{ gOn }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;bottom:4px;font:400 11px 'Space Mono',monospace;color:#C8F25A;letter-spacing:.08em">BROADCASTING · ENCRYPTED</div></sc-if>
+</div>
+<sc-if value="{{ gOff }}" hint-placeholder-val="{{ true }}">
+<div style="padding:16px 22px 0">
+<h1 style="margin:0;font:700 34px/1.02 'Space Grotesk',sans-serif;letter-spacing:-.035em">Be findable.<br>Not trackable.</h1>
+<p style="margin:12px 0 0;font-size:15px;line-height:1.45;color:#8A948C">Your friends see you. The server sees noise.</p>
+</div>
+<div style="padding:24px 22px 0;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:400 11px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">DURATION</span><span style="font:700 22px 'Space Mono',monospace;color:#C8F25A">{{ gLabel }}</span></div>
+<input type="range" min="0" max="6" step="1" value="{{ gIdx }}" onChange="{{ gSlide }}" style="width:100%;margin:0;accent-color:#C8F25A">
+<div style="display:flex;justify-content:space-between;font:400 10px 'Space Mono',monospace;color:#5C665E"><span>15m</span><span>30m</span><span>1h</span><span>2h</span><span>4h</span><span>8h</span><span>24h</span></div>
+</div>
+<div style="padding:22px 22px 0">
+<button onClick="{{ gStart }}" style="width:100%;height:60px;border:0;border-radius:8px;background:#C8F25A;color:#0B0D0C;font:700 17px 'Space Grotesk',sans-serif;cursor:pointer" style-hover="background:#DBFF7A">Go live</button>
+</div>
+<sc-if value="{{ gHowClosed }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ gToggleHow }}" style="margin:14px 22px 22px;border:0;background:transparent;color:#8A948C;font:400 12px 'Space Mono',monospace;cursor:pointer;text-align:center">[ + how the encryption works ]</button>
+</sc-if>
+<sc-if value="{{ gHowOpen }}" hint-placeholder-val="{{ false }}">
+<div style="margin:14px 22px 22px;border-top:1px solid #1F2621;display:flex;flex-direction:column">
+<div style="display:grid;grid-template-columns:36px 1fr;padding:12px 0;border-bottom:1px solid #1F2621;font-size:13px;line-height:1.4"><span style="font:700 12px 'Space Mono',monospace;color:#C8F25A">01</span><span style="color:#C4CCC5">Your phone makes a secret key. It's stored only after the <span style="font-family:'Space Mono',monospace;color:#C8F25A">#</span> in the link.</span></div>
+<div style="display:grid;grid-template-columns:36px 1fr;padding:12px 0;border-bottom:1px solid #1F2621;font-size:13px;line-height:1.4"><span style="font:700 12px 'Space Mono',monospace;color:#C8F25A">02</span><span style="color:#C4CCC5">Each GPS fix is encrypted before it leaves your phone.</span></div>
+<div style="display:grid;grid-template-columns:36px 1fr;padding:12px 0;font-size:13px;line-height:1.4"><span style="font:700 12px 'Space Mono',monospace;color:#C8F25A">03</span><span style="color:#C4CCC5">Your friend's browser decrypts it. The server never holds the key.</span></div>
+<button onClick="{{ gToggleHow }}" style="border:0;background:transparent;color:#8A948C;font:400 12px 'Space Mono',monospace;cursor:pointer;padding-top:6px">[ − close ]</button>
+</div>
+</sc-if>
+</sc-if>
+<sc-if value="{{ gOn }}" hint-placeholder-val="{{ false }}">
+<div style="padding:16px 22px 0;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font:700 56px/1 'Space Mono',monospace;letter-spacing:-.04em">{{ gLeft }}</span><span style="font:400 11px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">UNTIL THE LINK GOES DARK</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="background:#141816;border:1px solid #1F2621;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:4px"><span style="font:400 10px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">UPDATES SENT</span><span style="font:700 20px 'Space Mono',monospace">{{ gSent }}</span></div>
+<div style="background:#141816;border:1px solid #1F2621;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:4px"><span style="font:400 10px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">GPS ACCURACY</span><span style="font:700 20px 'Space Mono',monospace">±8 m</span></div>
+</div>
+<div style="background:#141816;border:1px solid #1F2621;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:6px">
+<div style="font:400 10px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">LAST PACKET · WHAT THE SERVER GOT</div>
+<div style="font:400 11px/1.5 'Space Mono',monospace;color:#5C665E;word-break:break-all;height:34px;overflow:hidden">{{ cipher }}</div>
+</div>
+<button onClick="{{ gAdd }}" style="border:0;background:transparent;color:#C8F25A;font:400 12px 'Space Mono',monospace;cursor:pointer">[ + 30 min ]</button>
+</div>
+<div style="margin-top:auto;padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button onClick="{{ gCopy }}" style="height:56px;border:0;border-radius:8px;background:#C8F25A;color:#0B0D0C;font:700 15px 'Space Grotesk',sans-serif;cursor:pointer">{{ gCopyLabel }}</button>
+<button onClick="{{ gStop }}" style="height:56px;border:1px solid #3A4540;border-radius:8px;background:transparent;color:#E9EEE6;font:500 15px 'Space Grotesk',sans-serif;cursor:pointer" style-hover="border-color:#E9EEE6">Go dark</button>
+</div>
+</sc-if>
+</div>
+</div>
+
+<div class="dv-opt" id="3b">
+<div class="dv-olabel"><a class="dv-oid" href="#3b">3b</a>Friend — opens link, decrypts, live map (click to replay)</div>
+<div class="dv-card" style="width:390px;height:844px;background:#0B0D0C;color:#E9EEE6;font-family:'Space Grotesk',system-ui,sans-serif;position:relative;overflow:hidden;border-color:#0B0D0C">
+<div style="position:absolute;left:-215px;top:-68px;width:768px;height:1024px;display:grid;grid-template-columns:repeat(3,256px);grid-auto-rows:256px;background:#1a1d1b">
+<sc-for list="{{ tiles }}" as="t" hint-placeholder-count="0"><img src="{{ t.src }}" width="256" height="256" alt="" style="display:block"></sc-for>
+</div>
+<sc-if value="{{ hLocked }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:rgba(11,13,12,.86);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;text-align:center">
+<div style="font:700 13px 'Space Mono',monospace;color:#C8F25A;letter-spacing:.08em;animation:pv-blink 1s infinite">DECRYPTING…</div>
+<div style="font:400 11px/1.5 'Space Mono',monospace;color:#5C665E;word-break:break-all;max-width:280px">{{ cipher }}</div>
+<div style="font-size:13px;color:#8A948C">Using the key in your link. Nothing is sent back.</div>
+</div>
+</sc-if>
+<sc-if value="{{ hOpen }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:195px;top:265px;transform:translate(-50%,-50%);width:120px;height:120px;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;width:120px;height:120px;border-radius:50%;border:2px solid #C8F25A;animation:pv-ring 2.4s ease-out infinite"></div>
+<div style="position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(200,242,90,.18)"></div>
+<div style="width:16px;height:16px;border-radius:50%;background:#C8F25A;border:3px solid #0B0D0C;box-shadow:0 0 20px #C8F25A"></div>
+</div>
+</sc-if>
+<div style="position:absolute;top:0;left:0;right:0;padding:18px 18px 40px;background:linear-gradient(#0B0D0C,rgba(11,13,12,0));display:flex;justify-content:space-between;align-items:center">
+<div style="font:700 17px 'Space Grotesk',sans-serif">privIsee<span style="color:#C8F25A">.</span></div>
+<div style="font:400 11px 'Space Mono',monospace;color:#C8F25A;border:1px solid #3A4540;border-radius:999px;padding:5px 10px;background:#0B0D0C">E2E ✓</div>
+</div>
+<sc-if value="{{ hOpen }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:12px;right:12px;bottom:12px;background:#0B0D0C;border:1px solid #1F2621;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;justify-content:space-between;align-items:baseline">
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font:700 22px 'Space Grotesk',sans-serif;letter-spacing:-.02em">Shared location</span><span style="font:400 12px 'Space Mono',monospace;color:#8A948C">48.4735° N · 7.9498° E</span></div>
+<span style="display:flex;align-items:center;gap:6px;font:400 11px 'Space Mono',monospace;color:#C8F25A"><span style="width:7px;height:7px;border-radius:50%;background:#C8F25A;animation:pv-blink 1.2s infinite"></span>LIVE</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="background:#141816;border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:3px"><span style="font:400 10px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">UPDATED</span><span style="font:700 16px 'Space Mono',monospace">{{ hAgo }}</span></div>
+<div style="background:#141816;border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:3px"><span style="font:400 10px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">LINK EXPIRES</span><span style="font:700 16px 'Space Mono',monospace">{{ hLeft }}</span></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr auto;gap:8px">
+<button style="height:52px;border:0;border-radius:8px;background:#C8F25A;color:#0B0D0C;font:700 15px 'Space Grotesk',sans-serif;cursor:pointer">Get directions</button>
+<button onClick="{{ hReplay }}" style="height:52px;padding:0 16px;border:1px solid #3A4540;border-radius:8px;background:transparent;color:#E9EEE6;font:400 12px 'Space Mono',monospace;cursor:pointer">replay</button>
+</div>
+</div>
+</sc-if>
+<div style="position:absolute;right:14px;bottom:250px;font:400 9px 'Space Mono',monospace;color:#5C665E">© Esri</div>
+</div>
+</div>
+
+<div class="dv-opt" id="3c">
+<div class="dv-olabel"><a class="dv-oid" href="#3c">3c</a>Friend — link expired</div>
+<div class="dv-card" style="width:390px;height:844px;background:#0B0D0C;color:#E9EEE6;font-family:'Space Grotesk',system-ui,sans-serif;display:flex;flex-direction:column;border-color:#0B0D0C">
+<div style="padding:20px 22px;font:700 18px 'Space Grotesk',sans-serif">privIsee<span style="color:#C8F25A">.</span></div>
+<div style="position:relative;height:300px;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;width:250px;height:250px;border-radius:50%;border:1px dashed #1F2621"></div>
+<div style="position:absolute;width:170px;height:170px;border-radius:50%;border:1px dashed #1F2621"></div>
+<div style="width:14px;height:14px;border-radius:50%;border:2px solid #3A4540"></div>
+</div>
+<div style="padding:0 22px;display:flex;flex-direction:column;gap:12px">
+<div style="font:400 11px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">SIGNAL LOST · LINK EXPIRED</div>
+<h1 style="margin:0;font:700 34px/1.02 'Space Grotesk',sans-serif;letter-spacing:-.035em">This link has gone dark.</h1>
+<p style="margin:0;font-size:15px;line-height:1.45;color:#8A948C;text-wrap:pretty">The person who shared it chose a time limit, and it's over. Ask them to send a new link if you still need their location.</p>
+</div>
+<div style="margin-top:auto;padding:22px;display:flex;flex-direction:column;gap:10px">
+<button style="height:56px;border:0;border-radius:8px;background:#C8F25A;color:#0B0D0C;font:700 16px 'Space Grotesk',sans-serif;cursor:pointer">Share my own location</button>
+<div style="font:400 11px 'Space Mono',monospace;color:#5C665E;text-align:center">Old location data is deleted within a month.</div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "build <a class="dv-oid" href="#3a">3a</a> + <a class="dv-oid" href="#3b">3b</a> as a real prototype file" · "add a QR code share option" · "a desktop viewer layout"</p>
+</section>
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Fresh start — privIsee's own identity, no OGCS styling</span></div>
+<p style="margin:0 0 24px;max-width:760px;font:400 14px/1.55 system-ui,sans-serif;color:#555">Three independent looks built just for privIsee. Same flow as before: pick a duration, start, then copy, watch the countdown, stop. Every screen is clickable.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Swiss utility — big list rows, electric blue, zero decoration</div>
+<div class="dv-card" style="width:390px;min-height:800px;background:#F4F4F0;color:#111;font-family:'Geist',system-ui,sans-serif;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:20px 20px 0">
+<div style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:17px;letter-spacing:-.02em"><span style="width:22px;height:22px;border-radius:50%;background:#2B45FF;display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;border-radius:50%;background:#fff"></span></span>privIsee</div>
+<a href="https://github.com/mgrgic/privisee/" style="font:500 12px 'Geist Mono',monospace;color:#111;text-decoration:none;border:1px solid #111;border-radius:999px;padding:4px 10px">open source ↗</a>
+</div>
+<sc-if value="{{ dOff }}" hint-placeholder-val="{{ true }}">
+<div style="padding:40px 20px 24px">
+<h1 style="margin:0;font-size:44px;line-height:.98;font-weight:600;letter-spacing:-.045em">Share your location.<br><span style="color:#2B45FF">Keep it yours.</span></h1>
+<p style="margin:16px 0 0;font-size:15px;line-height:1.45;color:#555;max-width:300px">Encrypted on your phone. Readable only by whoever has the link — not by us.</p>
+</div>
+<div style="font:500 11px 'Geist Mono',monospace;letter-spacing:.06em;color:#777;padding:0 20px 8px">VISIBLE FOR</div>
+<div style="display:flex;flex-direction:column;border-top:1px solid #111">
+<sc-for list="{{ dRows }}" as="r" hint-placeholder-count="5">
+<sc-if value="{{ r.active }}"><button onClick="{{ r.pick }}" style="display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 20px;border:0;border-bottom:1px solid #111;background:#2B45FF;color:#fff;font:500 22px 'Geist',sans-serif;letter-spacing:-.02em;cursor:pointer;text-align:left">{{ r.label }}<span style="font-size:18px">●</span></button></sc-if>
+<sc-if value="{{ r.idle }}"><button onClick="{{ r.pick }}" style="display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 20px;border:0;border-bottom:1px solid #111;background:transparent;color:#111;font:400 22px 'Geist',sans-serif;letter-spacing:-.02em;cursor:pointer;text-align:left" style-hover="background:#E8E8E2">{{ r.label }}<span style="font-size:18px;color:#bbb">○</span></button></sc-if>
+</sc-for>
+</div>
+<div style="margin-top:auto;padding:20px">
+<button onClick="{{ dStart }}" style="width:100%;height:60px;border:0;border-radius:14px;background:#111;color:#fff;font:600 17px 'Geist',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 20px" style-hover="background:#2B45FF">Start sharing<span>→</span></button>
+<div style="font:400 11px 'Geist Mono',monospace;color:#777;text-align:center;margin-top:12px">AES-256 · key never leaves the link</div>
+</div>
+</sc-if>
+<sc-if value="{{ dOn }}" hint-placeholder-val="{{ false }}">
+<div style="margin:28px 20px 0;background:#2B45FF;color:#fff;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;align-items:center;gap:8px;font:500 12px 'Geist Mono',monospace;letter-spacing:.06em"><span style="width:8px;height:8px;border-radius:50%;background:#fff;animation:pv-blink 1.2s infinite"></span>LIVE · ENCRYPTED</div>
+<div style="font:500 72px/1 'Geist Mono',monospace;letter-spacing:-.04em">{{ dLeft }}</div>
+<div style="font-size:14px;opacity:.85">left until your link stops working</div>
+</div>
+<div style="margin:12px 20px 0;display:grid;grid-template-columns:1fr auto;gap:8px">
+<div style="background:#fff;border:1px solid #111;border-radius:14px;padding:0 14px;display:flex;align-items:center;font:400 13px 'Geist Mono',monospace;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">…/s/7Qm2xK#key=●●●●</div>
+<button onClick="{{ dCopy }}" style="height:56px;padding:0 18px;border:0;border-radius:14px;background:#111;color:#fff;font:600 15px 'Geist',sans-serif;cursor:pointer">{{ dCopyLabel }}</button>
+</div>
+<div style="margin-top:auto;padding:20px">
+<button onClick="{{ dStop }}" style="width:100%;height:56px;border:1px solid #111;border-radius:14px;background:transparent;color:#111;font:500 16px 'Geist',sans-serif;cursor:pointer" style-hover="background:#111;color:#fff">Stop sharing</button>
+</div>
+</sc-if>
+</div>
+</div>
+
+<div class="dv-opt" id="2b">
+<div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Sealed link — editorial serif, the URL itself explains the privacy</div>
+<div class="dv-card" style="width:390px;min-height:800px;background:#F3EEE6;color:#1F1B16;font-family:'Geist',system-ui,sans-serif;display:flex;flex-direction:column">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:22px 24px 0">
+<div style="font:400 26px 'Instrument Serif',serif;letter-spacing:-.01em">priv<em style="color:#D9432A">I</em>see</div>
+<a href="https://github.com/mgrgic/privisee/" style="font-size:13px;color:#1F1B16">Source</a>
+</div>
+<div style="padding:36px 24px 0">
+<h1 style="margin:0;font:400 46px/1 'Instrument Serif',serif;letter-spacing:-.02em;text-wrap:pretty">Only the people with your link know <em style="color:#D9432A">where you are.</em></h1>
+</div>
+<div style="margin:28px 24px 0;background:#fff;border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 0 rgba(31,27,22,.08)">
+<div style="font:400 13px/1.6 'Geist Mono',monospace;word-break:break-all"><span style="color:#8A8177">privisee.seleven.de/s/7Qm2xK</span><span style="background:#D9432A;color:#fff;padding:1px 4px;border-radius:3px">#key=pX9f…Qa2</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:12px;line-height:1.4;color:#5E564D">
+<div style="border-top:1px solid #D8D0C4;padding-top:8px"><span style="color:#1F1B16;font-weight:500">This part</span> reaches our server — it only finds scrambled data.</div>
+<div style="border-top:2px solid #D9432A;padding-top:8px"><span style="color:#D9432A;font-weight:500">This part</span> never leaves the browser. It's the only key.</div>
+</div>
+</div>
+<sc-if value="{{ eOff }}" hint-placeholder-val="{{ true }}">
+<div style="padding:32px 24px 0;display:flex;flex-direction:column;gap:12px">
+<div style="font:italic 400 20px 'Instrument Serif',serif">Keep the link alive for…</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #1F1B16;border-radius:999px;overflow:hidden">
+<sc-for list="{{ eSegs }}" as="s" hint-placeholder-count="4">
+<sc-if value="{{ s.active }}"><button onClick="{{ s.pick }}" style="height:48px;border:0;background:#1F1B16;color:#F3EEE6;font:500 14px 'Geist',sans-serif;cursor:pointer">{{ s.label }}</button></sc-if>
+<sc-if value="{{ s.idle }}"><button onClick="{{ s.pick }}" style="height:48px;border:0;background:transparent;color:#1F1B16;font:400 14px 'Geist',sans-serif;cursor:pointer" style-hover="background:#E7DFD3">{{ s.label }}</button></sc-if>
+</sc-for>
+</div>
+</div>
+<div style="margin-top:auto;padding:24px">
+<button onClick="{{ eStart }}" style="width:100%;height:58px;border:0;border-radius:999px;background:#D9432A;color:#fff;font:500 17px 'Geist',sans-serif;cursor:pointer" style-hover="background:#B8341E">Create my private link</button>
+</div>
+</sc-if>
+<sc-if value="{{ eOn }}" hint-placeholder-val="{{ false }}">
+<div style="padding:28px 24px 0;display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid #D8D0C4;padding-bottom:16px;margin:0 24px;padding-left:0;padding-right:0">
+<div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:8px;height:8px;border-radius:50%;background:#3F8F5A;animation:pv-blink 1.4s infinite"></span>Sharing now</div>
+<div style="font:400 40px 'Instrument Serif',serif;letter-spacing:-.01em">{{ eLeft }}</div>
+</div>
+<div style="padding:12px 24px 0;font-size:13px;color:#5E564D">After that, the link goes dark and the data is deleted within a month.</div>
+<div style="margin-top:auto;padding:24px;display:flex;flex-direction:column;gap:10px">
+<button onClick="{{ eCopy }}" style="width:100%;height:58px;border:0;border-radius:999px;background:#D9432A;color:#fff;font:500 17px 'Geist',sans-serif;cursor:pointer" style-hover="background:#B8341E">{{ eCopyLabel }}</button>
+<button onClick="{{ eStop }}" style="width:100%;height:50px;border:1px solid #1F1B16;border-radius:999px;background:transparent;color:#1F1B16;font:400 15px 'Geist',sans-serif;cursor:pointer">End sharing early</button>
+</div>
+</sc-if>
+</div>
+</div>
+
+<div class="dv-opt" id="2c">
+<div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>Radar — dark, live, a little bit spy-gadget</div>
+<div class="dv-card" style="width:390px;min-height:800px;background:#0B0D0C;color:#E9EEE6;font-family:'Space Grotesk',system-ui,sans-serif;display:flex;flex-direction:column;border-color:#0B0D0C">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:20px 22px">
+<div style="font:700 18px 'Space Grotesk',sans-serif;letter-spacing:-.02em">privIsee<span style="color:#C8F25A">.</span></div>
+<a href="https://github.com/mgrgic/privisee/" style="font:400 11px 'Space Mono',monospace;color:#8A948C;text-decoration:none">[ source ]</a>
+</div>
+<div style="position:relative;height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+<div style="position:absolute;width:280px;height:280px;border-radius:50%;border:1px solid #1F2621"></div>
+<div style="position:absolute;width:190px;height:190px;border-radius:50%;border:1px solid #1F2621"></div>
+<div style="position:absolute;width:100px;height:100px;border-radius:50%;border:1px solid #1F2621"></div>
+<sc-if value="{{ fOn }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;width:280px;height:280px;border-radius:50%;border:2px solid #C8F25A;animation:pv-ring 2.4s ease-out infinite"></div>
+<div style="position:absolute;width:280px;height:280px;border-radius:50%;border:2px solid #C8F25A;animation:pv-ring 2.4s ease-out 1.2s infinite"></div>
+</sc-if>
+<div style="position:absolute;width:14px;height:14px;border-radius:50%;background:#C8F25A;box-shadow:0 0 24px #C8F25A"></div>
+<sc-if value="{{ fOff }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;bottom:18px;font:400 11px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">OFF THE GRID</div>
+</sc-if>
+<sc-if value="{{ fOn }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;bottom:18px;font:400 11px 'Space Mono',monospace;color:#C8F25A;letter-spacing:.08em">BROADCASTING · ENCRYPTED</div>
+</sc-if>
+</div>
+<sc-if value="{{ fOff }}" hint-placeholder-val="{{ true }}">
+<div style="padding:8px 22px 0">
+<h1 style="margin:0;font:700 34px/1.02 'Space Grotesk',sans-serif;letter-spacing:-.035em">Be findable.<br>Not trackable.</h1>
+<p style="margin:12px 0 0;font-size:15px;line-height:1.45;color:#8A948C">Your friends see you. The server sees noise.</p>
+</div>
+<div style="padding:24px 22px 0;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:400 11px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">DURATION</span><span style="font:700 22px 'Space Mono',monospace;color:#C8F25A">{{ fLabel }}</span></div>
+<input type="range" min="0" max="6" step="1" value="{{ fIdx }}" onChange="{{ fSlide }}" style="width:100%;margin:0;accent-color:#C8F25A">
+</div>
+<div style="margin-top:auto;padding:22px">
+<button onClick="{{ fStart }}" style="width:100%;height:60px;border:0;border-radius:8px;background:#C8F25A;color:#0B0D0C;font:700 17px 'Space Grotesk',sans-serif;cursor:pointer;letter-spacing:-.01em" style-hover="background:#DBFF7A">Go live</button>
+</div>
+</sc-if>
+<sc-if value="{{ fOn }}" hint-placeholder-val="{{ false }}">
+<div style="padding:0 22px;display:flex;flex-direction:column;gap:14px">
+<div style="font:700 56px/1 'Space Mono',monospace;letter-spacing:-.04em;text-align:center">{{ fLeft }}</div>
+<div style="background:#141816;border:1px solid #1F2621;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:6px">
+<div style="font:400 10px 'Space Mono',monospace;color:#8A948C;letter-spacing:.08em">LAST PACKET · WHAT THE SERVER GOT</div>
+<div style="font:400 11px/1.5 'Space Mono',monospace;color:#5C665E;word-break:break-all;height:34px;overflow:hidden">{{ cipher }}</div>
+</div>
+</div>
+<div style="margin-top:auto;padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button onClick="{{ fCopy }}" style="height:56px;border:0;border-radius:8px;background:#C8F25A;color:#0B0D0C;font:700 15px 'Space Grotesk',sans-serif;cursor:pointer">{{ fCopyLabel }}</button>
+<button onClick="{{ fStop }}" style="height:56px;border:1px solid #3A4540;border-radius:8px;background:transparent;color:#E9EEE6;font:500 15px 'Space Grotesk',sans-serif;cursor:pointer" style-hover="border-color:#E9EEE6">Go dark</button>
+</div>
+</sc-if>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "take <a class="dv-oid" href="#2b">2b</a>'s link explainer into <a class="dv-oid" href="#2a">2a</a>" · "design the friend's map view in <a class="dv-oid" href="#2c">2c</a>" · "a logo for privIsee"</p>
+</section>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Three directions for the start + live-sharing screens · mobile, fully clickable</span></div>
+<p style="margin:0 0 24px;max-width:760px;font-size:14px;line-height:1.55;color:#5A5A5A;font-weight:300">What I changed across all three: one clear headline that states the promise, the duration picker turned into direct presets instead of a vague Minutes/Hours toggle, the encryption story shortened to something you can read in five seconds, and a real "you're sharing" state with countdown, copy link and stop. Tap <b style="font-weight:500">Start sharing</b> in each to see it.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Calm &amp; clear — by the book, presets as chips</div>
+<div class="dv-card" style="width:390px;min-height:800px;background:#FAFAF9;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px">
+<div style="font-size:20px;font-weight:500;letter-spacing:-.01em">priv<span style="color:#BC0A29">I</span>see</div>
+<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#5A5A5A;border:1px solid #D6D5D2;border-radius:999px;padding:5px 10px"><i class="ti ti-lock" style="font-size:14px;color:#BC0A29"></i>End-to-end encrypted</div>
+</div>
+<div style="padding:28px 24px 0;display:flex;flex-direction:column;gap:12px">
+<div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#BC0A29;font-weight:500">Private location sharing</div>
+<h1 style="margin:0;font-size:34px;line-height:1.1;font-weight:500;letter-spacing:-.015em;text-wrap:pretty">Share where you are. Not with us.</h1>
+<p style="margin:0;font-size:16px;line-height:1.5;font-weight:300;color:#5A5A5A;text-wrap:pretty">Send a link. Only people who open it can see you on the map — the server only ever sees ciphertext.</p>
+</div>
+<sc-if value="{{ aOff }}" hint-placeholder-val="{{ true }}">
+<div style="margin:28px 24px 0;background:#fff;border:1px solid #D6D5D2;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div style="font-size:15px;font-weight:500">Share for</div>
+<div style="display:flex;background:#EFEEEB;border-radius:8px;padding:3px;gap:2px">
+<sc-if value="{{ aIsMin }}" hint-placeholder-val="{{ false }}"><button onClick="{{ aSetMin }}" style="border:0;background:#fff;border-radius:6px;padding:6px 12px;font:500 13px var(--ogcs-font-sans);color:#373435;cursor:pointer">Minutes</button></sc-if>
+<sc-if value="{{ aIsHour }}" hint-placeholder-val="{{ true }}"><button onClick="{{ aSetMin }}" style="border:0;background:transparent;border-radius:6px;padding:6px 12px;font:300 13px var(--ogcs-font-sans);color:#5A5A5A;cursor:pointer">Minutes</button></sc-if>
+<sc-if value="{{ aIsHour }}" hint-placeholder-val="{{ true }}"><button onClick="{{ aSetHour }}" style="border:0;background:#fff;border-radius:6px;padding:6px 12px;font:500 13px var(--ogcs-font-sans);color:#373435;cursor:pointer">Hours</button></sc-if>
+<sc-if value="{{ aIsMin }}" hint-placeholder-val="{{ false }}"><button onClick="{{ aSetHour }}" style="border:0;background:transparent;border-radius:6px;padding:6px 12px;font:300 13px var(--ogcs-font-sans);color:#5A5A5A;cursor:pointer">Hours</button></sc-if>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+<sc-for list="{{ aChips }}" as="c" hint-placeholder-count="4">
+<sc-if value="{{ c.active }}"><button onClick="{{ c.pick }}" style="height:52px;border:1px solid #BC0A29;background:#F4D5D4;color:#9E1F1D;border-radius:8px;font:500 17px var(--ogcs-font-sans);cursor:pointer">{{ c.label }}</button></sc-if>
+<sc-if value="{{ c.idle }}"><button onClick="{{ c.pick }}" style="height:52px;border:1px solid #D6D5D2;background:#fff;color:#373435;border-radius:8px;font:300 17px var(--ogcs-font-sans);cursor:pointer" style-hover="border-color:#373435">{{ c.label }}</button></sc-if>
+</sc-for>
+</div>
+<div style="font-size:13px;color:#5A5A5A;font-weight:300">Link stops working after <span style="font-weight:500;color:#373435">{{ aLabel }}</span>.</div>
+<x-import component-from-global-scope="OGCSDesignSystem_5d02a1.Button" size="lg" dc-props="{{ full }}" on-click="{{ aStart }}" style="display:block;width:100%" hint-size="100%,52px">Start sharing</x-import>
+</div>
+</sc-if>
+<sc-if value="{{ aOn }}" hint-placeholder-val="{{ false }}">
+<div style="margin:28px 24px 0;background:#fff;border:1px solid #D6D5D2;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;gap:10px"><span style="width:10px;height:10px;border-radius:50%;background:#2F7D4F;animation:pv-pulse 1.6s infinite"></span><span style="font-size:15px;font-weight:500">You're sharing live</span><span style="margin-left:auto;font-family:var(--ogcs-font-mono);font-size:15px">{{ aLeft }}</span></div>
+<div style="display:flex;align-items:center;gap:8px;border:1px solid #D6D5D2;border-radius:8px;padding:12px;background:#FAFAF9"><i class="ti ti-link" style="color:#5A5A5A"></i><span style="font-family:var(--ogcs-font-mono);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">privisee.seleven.de/s/7Qm2xK#key=…</span></div>
+<x-import component-from-global-scope="OGCSDesignSystem_5d02a1.Button" size="lg" dc-props="{{ full }}" on-click="{{ aCopy }}" style="display:block;width:100%" hint-size="100%,52px">{{ aCopyLabel }}</x-import>
+<x-import component-from-global-scope="OGCSDesignSystem_5d02a1.Button" variant="ghost" dc-props="{{ full }}" on-click="{{ aStop }}" style="display:block;width:100%" hint-size="100%,44px">Stop sharing now</x-import>
+</div>
+</sc-if>
+<div style="padding:36px 24px 0;display:flex;flex-direction:column">
+<div style="font-size:15px;font-weight:500;padding-bottom:10px;border-bottom:1px solid #BC0A29">How the encryption works</div>
+<div style="display:grid;grid-template-columns:32px 1fr;gap:4px 8px;padding:14px 0;border-bottom:1px solid #D6D5D2"><span style="color:#BC0A29;font-family:var(--ogcs-font-mono);font-size:13px">01</span><span style="font-size:14px;line-height:1.45;font-weight:300">Your browser creates a secret key. It lives only in the link.</span></div>
+<div style="display:grid;grid-template-columns:32px 1fr;gap:4px 8px;padding:14px 0;border-bottom:1px solid #D6D5D2"><span style="color:#BC0A29;font-family:var(--ogcs-font-mono);font-size:13px">02</span><span style="font-size:14px;line-height:1.45;font-weight:300">Every GPS update is encrypted on your phone before it's sent.</span></div>
+<div style="display:grid;grid-template-columns:32px 1fr;gap:4px 8px;padding:14px 0"><span style="color:#BC0A29;font-family:var(--ogcs-font-mono);font-size:13px">03</span><span style="font-size:14px;line-height:1.45;font-weight:300">Your friend decrypts it in their browser. We never can.</span></div>
+</div>
+<div style="margin-top:auto;padding:20px 24px;display:flex;align-items:center;gap:6px;font-size:13px;color:#5A5A5A;border-top:1px solid #D6D5D2"><i class="ti ti-brand-github"></i><a href="https://github.com/mgrgic/privisee/" style="color:#5A5A5A">Open source — check the code</a></div>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>The dial — one big number, countdown ring when live</div>
+<div class="dv-card" style="width:390px;min-height:800px;background:#FAFAF9;display:flex;flex-direction:column">
+<div style="background:#373435;color:#fff;padding:20px 24px 32px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="font-size:20px;font-weight:500">priv<span style="color:#F4D5D4">I</span>see</div>
+<a href="https://github.com/mgrgic/privisee/" style="color:#D6D5D2;font-size:20px"><i class="ti ti-brand-github"></i></a>
+</div>
+<sc-if value="{{ bOff }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:6px">
+<h1 style="margin:0;font-size:28px;line-height:1.15;font-weight:500;text-wrap:pretty">How long should people see you?</h1>
+<p style="margin:0;font-size:14px;font-weight:300;color:#D6D5D2">Encrypted on your phone. The link is the only key.</p>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0">
+<button onClick="{{ bDec }}" style="width:56px;height:56px;border-radius:50%;border:1px solid #5A5A5A;background:transparent;color:#fff;font-size:22px;cursor:pointer" style-hover="border-color:#fff"><i class="ti ti-minus"></i></button>
+<div style="display:flex;flex-direction:column;align-items:center"><span style="font-size:88px;line-height:1;font-weight:300;letter-spacing:-.03em">{{ bNum }}</span><span style="font-size:15px;color:#D6D5D2;margin-top:4px">{{ bUnit }}</span></div>
+<button onClick="{{ bInc }}" style="width:56px;height:56px;border-radius:50%;border:1px solid #5A5A5A;background:transparent;color:#fff;font-size:22px;cursor:pointer" style-hover="border-color:#fff"><i class="ti ti-plus"></i></button>
+</div>
+<div style="display:flex;gap:4px;justify-content:center">
+<sc-for list="{{ bDots }}" as="d" hint-placeholder-count="7">
+<sc-if value="{{ d.active }}"><span style="width:18px;height:4px;border-radius:2px;background:#BC0A29"></span></sc-if>
+<sc-if value="{{ d.idle }}"><span style="width:6px;height:4px;border-radius:2px;background:#5A5A5A"></span></sc-if>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ bOn }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:8px 0">
+<div style="position:relative;width:200px;height:200px">
+<svg width="200" height="200" viewBox="0 0 200 200" style="transform:rotate(-90deg)"><circle cx="100" cy="100" r="88" fill="none" stroke="#5A5A5A" stroke-width="4"></circle><circle cx="100" cy="100" r="88" fill="none" stroke="#BC0A29" stroke-width="6" stroke-linecap="round" stroke-dasharray="552.9" stroke-dashoffset="{{ bOffset }}" style="transition:stroke-dashoffset 1s linear"></circle></svg>
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px"><span style="font-family:var(--ogcs-font-mono);font-size:32px">{{ bLeft }}</span><span style="font-size:13px;color:#D6D5D2;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#2F7D4F;animation:pv-pulse 1.6s infinite"></span>Sharing live</span></div>
+</div>
+</div>
+</sc-if>
+</div>
+<div style="padding:24px;display:flex;flex-direction:column;gap:12px">
+<sc-if value="{{ bOff }}" hint-placeholder-val="{{ true }}">
+<x-import component-from-global-scope="OGCSDesignSystem_5d02a1.Button" size="lg" dc-props="{{ full }}" on-click="{{ bStart }}" style="display:block;width:100%" hint-size="100%,52px">Start sharing</x-import>
+</sc-if>
+<sc-if value="{{ bOn }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<x-import component-from-global-scope="OGCSDesignSystem_5d02a1.Button" size="lg" dc-props="{{ full }}" on-click="{{ bCopy }}" style="display:block" hint-size="100%,52px">{{ bCopyLabel }}</x-import>
+<x-import component-from-global-scope="OGCSDesignSystem_5d02a1.Button" size="lg" variant="secondary" dc-props="{{ full }}" on-click="{{ bStop }}" style="display:block" hint-size="100%,52px">Stop</x-import>
+</div>
+<button onClick="{{ bAdd }}" style="border:0;background:transparent;color:#BC0A29;font:500 14px var(--ogcs-font-sans);cursor:pointer;padding:6px">Add 30 minutes</button>
+</sc-if>
+</div>
+<div style="padding:8px 24px 0;display:flex;flex-direction:column;gap:14px">
+<div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#BC0A29;font-weight:500">Who can see what</div>
+<div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:6px;text-align:center">
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="width:48px;height:48px;border-radius:50%;background:#fff;border:1px solid #D6D5D2;display:flex;align-items:center;justify-content:center;font-size:22px"><i class="ti ti-device-mobile"></i></span><span style="font-size:13px;font-weight:500">You</span><span style="font-size:12px;color:#5A5A5A;font-weight:300">location + key</span></div>
+<i class="ti ti-arrow-right" style="color:#D6D5D2"></i>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="width:48px;height:48px;border-radius:50%;background:#EFEEEB;border:1px dashed #5A5A5A;display:flex;align-items:center;justify-content:center;font-size:22px;color:#5A5A5A"><i class="ti ti-server"></i></span><span style="font-size:13px;font-weight:500">Server</span><span style="font-size:12px;color:#5A5A5A;font-weight:300">gibberish only</span></div>
+<i class="ti ti-arrow-right" style="color:#D6D5D2"></i>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="width:48px;height:48px;border-radius:50%;background:#fff;border:1px solid #D6D5D2;display:flex;align-items:center;justify-content:center;font-size:22px"><i class="ti ti-user"></i></span><span style="font-size:13px;font-weight:500">Friend</span><span style="font-size:12px;color:#5A5A5A;font-weight:300">location via link</span></div>
+</div>
+<p style="margin:4px 0 0;font-size:13px;line-height:1.5;color:#5A5A5A;font-weight:300;text-wrap:pretty">The key sits after the <span style="font-family:var(--ogcs-font-mono);color:#373435">#</span> in your link. Browsers never send that part to a server.</p>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Show, don't tell — live proof of what the server sees</div>
+<div class="dv-card" style="width:390px;min-height:800px;background:#FAFAF9;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px">
+<div style="font-size:20px;font-weight:500">priv<span style="color:#BC0A29">I</span>see</div>
+<a href="https://github.com/mgrgic/privisee/" style="font-size:13px;color:#5A5A5A;display:flex;align-items:center;gap:4px;text-decoration:none"><i class="ti ti-brand-github"></i>Source</a>
+</div>
+<div style="padding:12px 24px 0">
+<h1 style="margin:0;font-size:30px;line-height:1.12;font-weight:500;letter-spacing:-.015em;text-wrap:pretty">Your friend sees a dot on a map. <span style="color:#BC0A29">We see this:</span></h1>
+</div>
+<div style="margin:20px 24px 0;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;border:1px solid #D6D5D2">
+<div style="background:#2A2A2A;color:#D6D5D2;padding:14px 16px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#fff"><i class="ti ti-server" style="font-size:14px"></i>Server</div>
+<div style="font-family:var(--ogcs-font-mono);font-size:12px;line-height:1.5;word-break:break-all;height:54px;overflow:hidden">{{ cipher }}</div>
+</div>
+<div style="background:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px">
+<span style="width:36px;height:36px;border-radius:50%;background:#F4D5D4;display:flex;align-items:center;justify-content:center;color:#BC0A29"><i class="ti ti-map-pin"></i></span>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#BC0A29;font-weight:500">Friend with link</span><span style="font-family:var(--ogcs-font-mono);font-size:13px">48.4735° N, 7.9498° E</span></div>
+</div>
+</div>
+<sc-if value="{{ cOff }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:auto;background:#fff;border-top:1px solid #D6D5D2;border-radius:16px 16px 0 0;padding:24px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:15px;font-weight:500">Stay visible for</span><span style="font-size:24px;font-weight:500;color:#BC0A29">{{ cLabel }}</span></div>
+<input type="range" min="0" max="6" step="1" value="{{ cIdx }}" onChange="{{ cSlide }}" style="width:100%;height:28px;margin:0">
+<div style="display:flex;justify-content:space-between;font-size:12px;color:#5A5A5A;font-family:var(--ogcs-font-mono);margin-top:-10px"><span>15m</span><span>1h</span><span>4h</span><span>24h</span></div>
+<x-import component-from-global-scope="OGCSDesignSystem_5d02a1.Button" size="lg" dc-props="{{ full }}" on-click="{{ cStart }}" style="display:block;width:100%" hint-size="100%,52px">Start sharing</x-import>
+<div style="font-size:12px;color:#5A5A5A;font-weight:300;text-align:center">No account. The link expires on its own.</div>
+</div>
+</sc-if>
+<sc-if value="{{ cOn }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:auto;background:#fff;border-top:1px solid #D6D5D2;border-radius:16px 16px 0 0;padding:24px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;gap:10px"><span style="width:10px;height:10px;border-radius:50%;background:#2F7D4F;animation:pv-pulse 1.6s infinite"></span><span style="font-size:15px;font-weight:500">Live — the ciphertext above is yours now</span></div>
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid #D6D5D2"><span style="font-size:13px;color:#5A5A5A">Expires in</span><span style="font-family:var(--ogcs-font-mono);font-size:22px">{{ cLeft }}</span></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+<button onClick="{{ cCopy }}" style="height:64px;border:1px solid #D6D5D2;background:#fff;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:300 12px var(--ogcs-font-sans);color:#373435;cursor:pointer" style-hover="border-color:#373435"><i class="ti ti-copy" style="font-size:20px"></i>{{ cCopyLabel }}</button>
+<button style="height:64px;border:1px solid #D6D5D2;background:#fff;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:300 12px var(--ogcs-font-sans);color:#373435;cursor:pointer" style-hover="border-color:#373435"><i class="ti ti-share" style="font-size:20px"></i>Send</button>
+<button style="height:64px;border:1px solid #D6D5D2;background:#fff;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:300 12px var(--ogcs-font-sans);color:#373435;cursor:pointer" style-hover="border-color:#373435"><i class="ti ti-qrcode" style="font-size:20px"></i>QR code</button>
+</div>
+<x-import component-from-global-scope="OGCSDesignSystem_5d02a1.Button" size="lg" variant="secondary" dc-props="{{ full }}" on-click="{{ cStop }}" style="display:block;width:100%" hint-size="100%,52px">Stop sharing</x-import>
+</div>
+</sc-if>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "go with <a class="dv-oid" href="#1c">1c</a> but use the chips from <a class="dv-oid" href="#1a">1a</a>" · "design the friend's map view for <a class="dv-oid" href="#1b">1b</a>" · "dark mode version"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const P = [[15,'minutes',900],[30,'minutes',1800],[1,'hour',3600],[2,'hours',7200],[4,'hours',14400],[8,'hours',28800],[24,'hours',86400]];
+class Component extends DCLogic {
+  state = { a:{unit:'h',val:1,on:false}, b:{idx:2,on:false}, c:{idx:2,on:false}, d:{idx:2,on:false}, e:{secs:3600,on:false}, f:{idx:2,on:false}, g:{idx:2,on:false}, h:{t0:Date.now()}, cipher:'', now:Date.now() };
+  componentDidMount(){ this.setState({cipher:this.rnd()}); this.t=setInterval(()=>this.setState({now:Date.now(),cipher:this.rnd()}),1000); }
+  componentWillUnmount(){ clearInterval(this.t); }
+  rnd(){ const h='0123456789abcdef'; let s=''; for(let i=0;i<120;i++) s+=h[Math.floor(Math.random()*16)]; return s; }
+  set(k,p){ this.setState(s=>({[k]:{...s[k],...p}})); }
+  start(k,secs){ this.set(k,{on:true,end:Date.now()+secs*1000,total:secs,copied:false}); }
+  copy(k){ try{navigator.clipboard.writeText('https://privisee.seleven.de/s/7Qm2xK#key=demo')}catch(e){} this.set(k,{copied:true}); setTimeout(()=>this.set(k,{copied:false}),1800); }
+  fmt(ms){ const t=Math.max(0,Math.round(ms/1000)),h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=t%60,p=n=>String(n).padStart(2,'0'); return h?`${h}:${p(m)}:${p(s)}`:`${m}:${p(s)}`; }
+  renderVals(){
+    const {a,b,c,now}=this.state;
+    const aOpts = a.unit==='m'?[5,15,30,45]:[1,2,4,8];
+    const aSecs = a.val*(a.unit==='m'?60:3600);
+    const aLabel = a.unit==='m'?`${a.val} minutes`:`${a.val} hour${a.val>1?'s':''}`;
+    const bP=P[b.idx], cP=P[c.idx];
+    const bRem = b.on? Math.max(0,b.end-now):0;
+    const {d,e,f}=this.state, dP=P[d.idx], fP=P[f.idx];
+    const eOpts=[[900,'15 min'],[3600,'1 hr'],[14400,'4 hr'],[28800,'8 hr']];
+    const dIdxs=[0,2,4,5,6];
+    const X = {
+      dOff:!d.on, dOn:d.on,
+      dRows:dIdxs.map(i=>({label:`${P[i][0]} ${P[i][1]}`,active:i===d.idx,idle:i!==d.idx,pick:()=>this.set('d',{idx:i})})),
+      dStart:()=>this.start('d',dP[2]), dStop:()=>this.set('d',{on:false}), dCopy:()=>this.copy('d'),
+      dCopyLabel:d.copied?'Copied':'Copy', dLeft:d.on?this.fmt(d.end-now):'',
+      eOff:!e.on, eOn:e.on,
+      eSegs:eOpts.map(([s,l])=>({label:l,active:s===e.secs,idle:s!==e.secs,pick:()=>this.set('e',{secs:s})})),
+      eStart:()=>this.start('e',e.secs), eStop:()=>this.set('e',{on:false}), eCopy:()=>this.copy('e'),
+      eCopyLabel:e.copied?'Link copied':'Copy link to send', eLeft:e.on?this.fmt(e.end-now):'',
+      fOff:!f.on, fOn:f.on, fIdx:f.idx, fLabel:`${fP[0]}${fP[1][0]==='m'?'m':'h'}`,
+      fSlide:ev=>this.set('f',{idx:+ev.target.value}),
+      fStart:()=>this.start('f',fP[2]), fStop:()=>this.set('f',{on:false}), fCopy:()=>this.copy('f'),
+      fCopyLabel:f.copied?'Copied':'Copy link', fLeft:f.on?this.fmt(f.end-now):''
+    };
+    const {g,h}=this.state, gP=P[g.idx];
+    const tiles=[];
+    for(let y=11325;y<=11328;y++) for(let x=17106;x<=17108;x++) tiles.push({src:`https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/15/${y}/${x}`});
+    const hOpen = now-h.t0>1800;
+    Object.assign(X,{
+      gOff:!g.on, gOn:g.on, gIdx:g.idx, gLabel:`${gP[0]}${gP[1][0]==='m'?'m':'h'}`,
+      gSlide:ev=>this.set('g',{idx:+ev.target.value}),
+      gStart:()=>this.start('g',gP[2]), gStop:()=>this.set('g',{on:false}), gCopy:()=>this.copy('g'),
+      gAdd:()=>this.set('g',{end:g.end+1800000}),
+      gHowOpen:!!g.how, gHowClosed:!g.how, gToggleHow:()=>this.set('g',{how:!g.how}),
+      gCopyLabel:g.copied?'Copied':'Copy link', gLeft:g.on?this.fmt(g.end-now):'',
+      gSent:g.on?String(1+Math.floor((now-(g.end-g.total*1000))/5000)):'0',
+      tiles, hOpen, hLocked:!hOpen,
+      hAgo:`${Math.floor((now-h.t0)/1000)%5}s ago`, hLeft:this.fmt(3600000-(now-h.t0)),
+      hReplay:()=>this.set('h',{t0:Date.now()})
+    });
+    return { ...X,
+      full:{style:{width:'100%',justifyContent:'center'}},
+      aOff:!a.on, aOn:a.on, aIsMin:a.unit==='m', aIsHour:a.unit==='h', aLabel,
+      aSetMin:()=>this.set('a',{unit:'m',val:15}), aSetHour:()=>this.set('a',{unit:'h',val:1}),
+      aChips: aOpts.map(v=>({label:a.unit==='m'?`${v}m`:`${v}h`,active:v===a.val,idle:v!==a.val,pick:()=>this.set('a',{val:v})})),
+      aStart:()=>this.start('a',aSecs), aStop:()=>this.set('a',{on:false}), aCopy:()=>this.copy('a'),
+      aCopyLabel:a.copied?'Link copied':'Copy share link', aLeft:a.on?this.fmt(a.end-now):'',
+      bOff:!b.on, bOn:b.on, bNum:bP[0], bUnit:bP[1],
+      bDec:()=>this.set('b',{idx:Math.max(0,b.idx-1)}), bInc:()=>this.set('b',{idx:Math.min(6,b.idx+1)}),
+      bDots:P.map((_,i)=>({active:i===b.idx,idle:i!==b.idx})),
+      bStart:()=>this.start('b',bP[2]), bStop:()=>this.set('b',{on:false}), bCopy:()=>this.copy('b'),
+      bAdd:()=>this.set('b',{end:b.end+1800000,total:b.total+1800}),
+      bCopyLabel:b.copied?'Copied':'Copy link', bLeft:b.on?this.fmt(bRem):'',
+      bOffset: b.on? String(552.9*(1-bRem/(b.total*1000))) : '0',
+      cipher:this.state.cipher, cOff:!c.on, cOn:c.on, cIdx:c.idx, cLabel:`${cP[0]} ${cP[1]}`,
+      cSlide:e=>this.set('c',{idx:+e.target.value}),
+      cStart:()=>this.start('c',cP[2]), cStop:()=>this.set('c',{on:false}), cCopy:()=>this.copy('c'),
+      cCopyLabel:c.copied?'Copied':'Copy link', cLeft:c.on?this.fmt(c.end-now):''
+    };
+  }
+}
+</script>
+</body>
+</html>
