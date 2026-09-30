@@ -47,7 +47,8 @@
     const isAndroid = /android/i.test(navigator.userAgent);
     directionsLink.href = isAndroid
       ? `geo:${lat},${lon}?q=${lat},${lon}`
-      : `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+      //: `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+      : `https://www.openstreetmap.org/directions?to=${lat}%2C${lon}`;
   }
 
   function tick() {
