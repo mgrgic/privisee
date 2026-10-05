@@ -28,6 +28,7 @@
   const cipherTextEl = document.getElementById('cipher-text');
 
   let watchId = null;
+  let watchingViaNativePlugin = null; // the Geolocation plugin instance used for the active watch, if any
   let countdownInterval = null;
   let updatesSent = 0;
   let session = null; // { shareId, ownerToken, key, expiresAt }
@@ -89,12 +90,20 @@
     }
   }
 
+  // In the native app (mobile/), the @capacitor/geolocation plugin is used for both
+  // requesting permission *and* watching position, end to end through CLLocationManager.
+  // That keeps the OS permission prompt showing our Info.plist text and the app name.
+  // If we requested permission natively but then watched via navigator.geolocation,
+  // WKWebView would additionally show its own "'localhost' would like to use your
+  // current location" prompt, since the web geolocation API is handled by WebKit and
+  // tied to the page's origin rather than the app. On the plain website window.Capacitor
+  // is undefined, so this falls through to navigator.geolocation unchanged.
+  function getNativeGeolocationPlugin() {
+    return (window.Capacitor && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins.Geolocation) || null;
+  }
+
   async function requestNativeLocationPermission() {
-    // In the native app (mobile/), the OS location permission must be requested
-    // through the @capacitor/geolocation plugin before navigator.geolocation will
-    // report anything. On the plain website window.Capacitor is undefined and this
-    // is a no-op, so the browser's own permission prompt handles it as before.
-    const nativeGeo = window.Capacitor && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins.Geolocation;
+    const nativeGeo = getNativeGeolocationPlugin();
     if (!nativeGeo) return true;
     try {
       const status = await nativeGeo.requestPermissions();
@@ -105,7 +114,8 @@
   }
 
   async function startWatching() {
-    if (!('geolocation' in navigator)) {
+    const nativeGeo = getNativeGeolocationPlugin();
+    if (!nativeGeo && !('geolocation' in navigator)) {
       setStatus('Geolocation is not supported by this browser.');
       return;
     }
@@ -113,20 +123,37 @@
       setStatus('Location permission denied.');
       return;
     }
-    watchId = navigator.geolocation.watchPosition(publishPosition, (err) => {
-      setStatus(`Location error: ${err.message}`);
-    }, {
+    const options = {
       enableHighAccuracy: true,
       maximumAge: 5000,
       timeout: 20000,
-    });
+    };
+    if (nativeGeo) {
+      watchingViaNativePlugin = nativeGeo;
+      watchId = await nativeGeo.watchPosition(options, (position, err) => {
+        if (err) {
+          setStatus(`Location error: ${err.message}`);
+          return;
+        }
+        publishPosition(position);
+      });
+    } else {
+      watchingViaNativePlugin = null;
+      watchId = navigator.geolocation.watchPosition(publishPosition, (err) => {
+        setStatus(`Location error: ${err.message}`);
+      }, options);
+    }
   }
 
   function stopWatching() {
-    if (watchId !== null) {
+    if (watchId === null) return;
+    if (watchingViaNativePlugin) {
+      watchingViaNativePlugin.clearWatch({ id: watchId });
+    } else {
       navigator.geolocation.clearWatch(watchId);
-      watchId = null;
     }
+    watchId = null;
+    watchingViaNativePlugin = null;
   }
 
   function formatCountdown(msRemaining) {
