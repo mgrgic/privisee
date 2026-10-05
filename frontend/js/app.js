@@ -72,6 +72,21 @@
     howToggleOpen.hidden = false;
   });
 
+  // Two-click consent: the YouTube iframe is only created after the user opts in.
+  const videoConsent = document.getElementById('video-consent');
+  const videoFrame = document.getElementById('video-frame');
+  document.getElementById('video-load-btn').addEventListener('click', () => {
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube-nocookie.com/embed/QpcRD2oRAM4?autoplay=1';
+    iframe.title = 'privIsee video';
+    iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    iframe.allowFullscreen = true;
+    videoFrame.appendChild(iframe);
+    videoConsent.hidden = true;
+    videoFrame.hidden = false;
+  });
+
   async function publishPosition(position) {
     if (!session) return;
     const { latitude, longitude, accuracy } = position.coords;
