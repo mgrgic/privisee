@@ -26,6 +26,8 @@
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>privIsee encrypts your location on this device and sends it to whoever you share your live link with. Location access is only used while you have an active share running.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>privIsee needs your current location to send it to whoever you share your live link with.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

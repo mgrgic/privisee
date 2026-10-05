@@ -1,4 +1,4 @@
-package com.privisee.app;
+package de.seleven.privisee;
 
 import com.getcapacitor.BridgeActivity;
 
