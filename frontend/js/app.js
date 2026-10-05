@@ -28,6 +28,7 @@
   const cipherTextEl = document.getElementById('cipher-text');
 
   let watchId = null;
+  let watchingViaNativePlugin = null; // the Geolocation plugin instance used for the active watch, if any
   let countdownInterval = null;
   let updatesSent = 0;
   let session = null; // { shareId, ownerToken, key, expiresAt }
@@ -46,7 +47,8 @@
   }
 
   function buildShareUrl(shareId, keyB64) {
-    return `${location.origin}/s/${shareId}#key=${keyB64}`;
+    const origin = (window.PRIVISEE_CONFIG && window.PRIVISEE_CONFIG.publicShareOrigin) || location.origin;
+    return `${origin}/s/${shareId}#key=${keyB64}`;
   }
 
   function durationIndexToMinutes(index) {
@@ -88,25 +90,70 @@
     }
   }
 
-  function startWatching() {
-    if (!('geolocation' in navigator)) {
+  // In the native app (mobile/), the @capacitor/geolocation plugin is used for both
+  // requesting permission *and* watching position, end to end through CLLocationManager.
+  // That keeps the OS permission prompt showing our Info.plist text and the app name.
+  // If we requested permission natively but then watched via navigator.geolocation,
+  // WKWebView would additionally show its own "'localhost' would like to use your
+  // current location" prompt, since the web geolocation API is handled by WebKit and
+  // tied to the page's origin rather than the app. On the plain website window.Capacitor
+  // is undefined, so this falls through to navigator.geolocation unchanged.
+  function getNativeGeolocationPlugin() {
+    return (window.Capacitor && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins.Geolocation) || null;
+  }
+
+  async function requestNativeLocationPermission() {
+    const nativeGeo = getNativeGeolocationPlugin();
+    if (!nativeGeo) return true;
+    try {
+      const status = await nativeGeo.requestPermissions();
+      return status.location === 'granted' || status.coarseLocation === 'granted';
+    } catch (_) {
+      return false;
+    }
+  }
+
+  async function startWatching() {
+    const nativeGeo = getNativeGeolocationPlugin();
+    if (!nativeGeo && !('geolocation' in navigator)) {
       setStatus('Geolocation is not supported by this browser.');
       return;
     }
-    watchId = navigator.geolocation.watchPosition(publishPosition, (err) => {
-      setStatus(`Location error: ${err.message}`);
-    }, {
+    if (!(await requestNativeLocationPermission())) {
+      setStatus('Location permission denied.');
+      return;
+    }
+    const options = {
       enableHighAccuracy: true,
       maximumAge: 5000,
       timeout: 20000,
-    });
+    };
+    if (nativeGeo) {
+      watchingViaNativePlugin = nativeGeo;
+      watchId = await nativeGeo.watchPosition(options, (position, err) => {
+        if (err) {
+          setStatus(`Location error: ${err.message}`);
+          return;
+        }
+        publishPosition(position);
+      });
+    } else {
+      watchingViaNativePlugin = null;
+      watchId = navigator.geolocation.watchPosition(publishPosition, (err) => {
+        setStatus(`Location error: ${err.message}`);
+      }, options);
+    }
   }
 
   function stopWatching() {
-    if (watchId !== null) {
+    if (watchId === null) return;
+    if (watchingViaNativePlugin) {
+      watchingViaNativePlugin.clearWatch({ id: watchId });
+    } else {
       navigator.geolocation.clearWatch(watchId);
-      watchId = null;
     }
+    watchId = null;
+    watchingViaNativePlugin = null;
   }
 
   function formatCountdown(msRemaining) {
@@ -237,8 +284,20 @@
   copyBtn.addEventListener('click', async () => {
     if (!session) return;
     const url = buildShareUrl(session.shareId, session.key.exported);
+    // Inside the native iOS/Android app (mobile/), Capacitor injects window.Capacitor
+    // with native Share/Clipboard plugins that are more reliable than the web APIs
+    // running in a WebView. On the plain website, window.Capacitor is undefined and
+    // the code below falls through to navigator.share/clipboard unchanged.
+    const nativePlugins = window.Capacitor && window.Capacitor.isNativePlatform() ? window.Capacitor.Plugins : null;
 
-    if (navigator.share) {
+    if (nativePlugins) {
+      try {
+        await nativePlugins.Share.share({ title: 'privIsee', url });
+        return;
+      } catch (_) {
+        // user cancelled or share sheet failed, fall back to clipboard
+      }
+    } else if (navigator.share) {
       try {
         await navigator.share({ title: 'privIsee', url });
         return;
@@ -247,7 +306,11 @@
       }
     }
 
-    await navigator.clipboard.writeText(url);
+    if (nativePlugins) {
+      await nativePlugins.Clipboard.write({ string: url });
+    } else {
+      await navigator.clipboard.writeText(url);
+    }
     const original = copyBtn.textContent;
     copyBtn.textContent = 'Copied';
     setTimeout(() => { copyBtn.textContent = original; }, 1800);

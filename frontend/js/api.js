@@ -1,6 +1,8 @@
+const API_BASE = (window.PRIVISEE_CONFIG && window.PRIVISEE_CONFIG.apiBaseUrl) || '';
+
 const Api = {
   async createShare(durationMinutes, userId) {
-    const res = await fetch('/api/shares', {
+    const res = await fetch(`${API_BASE}/api/shares`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ durationMinutes, userId }),
@@ -10,13 +12,13 @@ const Api = {
   },
 
   async getShare(shareId) {
-    const res = await fetch(`/api/shares/${encodeURIComponent(shareId)}`);
+    const res = await fetch(`${API_BASE}/api/shares/${encodeURIComponent(shareId)}`);
     if (!res.ok) throw new Error('Share not found');
     return res.json();
   },
 
   async stopShare(shareId, ownerToken) {
-    await fetch(`/api/shares/${encodeURIComponent(shareId)}/stop`, {
+    await fetch(`${API_BASE}/api/shares/${encodeURIComponent(shareId)}/stop`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ownerToken }),
@@ -24,7 +26,7 @@ const Api = {
   },
 
   async updateLocation(shareId, ownerToken, payload, iv) {
-    const res = await fetch(`/api/shares/${encodeURIComponent(shareId)}/location`, {
+    const res = await fetch(`${API_BASE}/api/shares/${encodeURIComponent(shareId)}/location`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ownerToken, payload, iv }),

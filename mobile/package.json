@@ -1,0 +1,24 @@
+{
+  "name": "privisee-mobile",
+  "version": "1.0.0",
+  "description": "privIsee native iOS/Android shell (Capacitor) wrapping frontend/",
+  "private": true,
+  "scripts": {
+    "sync-web": "node scripts/sync-web.mjs",
+    "sync": "npm run sync-web && cap sync",
+    "open:ios": "npm run sync && cap open ios",
+    "open:android": "npm run sync && cap open android"
+  },
+  "dependencies": {
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/clipboard": "^8.0.1",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/geolocation": "^8.2.2",
+    "@capacitor/share": "^8.0.2"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/ios": "^8.5.2"
+  }
+}
