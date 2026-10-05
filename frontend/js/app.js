@@ -2,19 +2,35 @@
   const STORAGE_USER_ID = 'privisee.userId';
   const STORAGE_ACTIVE_SHARE = 'privisee.activeShare';
 
+  const DURATION_STEPS = [15, 30, 60, 120, 240, 480, 1440];
+  const DURATION_LABELS = ['15m', '30m', '1h', '2h', '4h', '8h', '24h'];
+
   const form = document.getElementById('start-form');
-  const durationInput = document.getElementById('duration');
-  const durationUnit = document.getElementById('duration-unit');
+  const durationSlider = document.getElementById('duration-slider');
+  const durationValue = document.getElementById('duration-value');
   const startSection = document.getElementById('start-section');
   const activeSection = document.getElementById('active-section');
-  const shareUrlInput = document.getElementById('share-url');
   const copyBtn = document.getElementById('copy-btn');
   const stopBtn = document.getElementById('stop-btn');
   const statusEl = document.getElementById('status');
-  const expiresEl = document.getElementById('expires-at');
+
+  const radarPulses = document.getElementById('radar-pulses');
+  const radarCaptionIdle = document.getElementById('radar-caption-idle');
+  const radarCaptionLive = document.getElementById('radar-caption-live');
+
+  const howToggleOpen = document.getElementById('how-toggle-open');
+  const howToggleClose = document.getElementById('how-toggle-close');
+  const howPanel = document.getElementById('how-panel');
+
+  const countdownValue = document.getElementById('countdown-value');
+  const updatesSentEl = document.getElementById('updates-sent');
+  const gpsAccuracyEl = document.getElementById('gps-accuracy');
+  const cipherTextEl = document.getElementById('cipher-text');
 
   let watchId = null;
-  let socket = null;
+  let watchingViaNativePlugin = null; // the Geolocation plugin instance used for the active watch, if any
+  let countdownInterval = null;
+  let updatesSent = 0;
   let session = null; // { shareId, ownerToken, key, expiresAt }
 
   function getUserId() {
@@ -27,68 +43,172 @@
   }
 
   function setStatus(text) {
-    statusEl.textContent = text;
+    statusEl.textContent = text || '';
   }
 
   function buildShareUrl(shareId, keyB64) {
-    return `${location.origin}/s/${shareId}#key=${keyB64}`;
+    const origin = (window.PRIVISEE_CONFIG && window.PRIVISEE_CONFIG.publicShareOrigin) || location.origin;
+    return `${origin}/s/${shareId}#key=${keyB64}`;
   }
 
-  function connectSocket() {
-    socket = new WebSocket(Api.wsUrl());
-    socket.addEventListener('open', () => setStatus('Sharing your location live.'));
-    socket.addEventListener('close', () => setStatus('Connection lost, retrying...'));
-    socket.addEventListener('error', () => setStatus('Connection error.'));
+  function durationIndexToMinutes(index) {
+    return DURATION_STEPS[index];
   }
+
+  function updateDurationLabel() {
+    durationValue.textContent = DURATION_LABELS[Number(durationSlider.value)];
+  }
+
+  durationSlider.addEventListener('input', updateDurationLabel);
+  updateDurationLabel();
+
+  howToggleOpen.addEventListener('click', () => {
+    howPanel.hidden = false;
+    howToggleOpen.hidden = true;
+  });
+
+  howToggleClose.addEventListener('click', () => {
+    howPanel.hidden = true;
+    howToggleOpen.hidden = false;
+  });
 
   async function publishPosition(position) {
-    if (!session || !socket || socket.readyState !== WebSocket.OPEN) return;
-    const { latitude, longitude } = position.coords;
-    const { payload, iv } = await encryptLocation(session.key.key, latitude, longitude);
-    socket.send(JSON.stringify({
-      type: 'publish',
-      shareId: session.shareId,
-      ownerToken: session.ownerToken,
-      payload,
-      iv,
-    }));
+    if (!session) return;
+    const { latitude, longitude, accuracy } = position.coords;
+    try {
+      const { payload, iv } = await encryptLocation(session.key.key, latitude, longitude);
+      await Api.updateLocation(session.shareId, session.ownerToken, payload, iv);
+      updatesSent += 1;
+      updatesSentEl.textContent = String(updatesSent);
+      if (accuracy != null) {
+        gpsAccuracyEl.textContent = `±${Math.round(accuracy)} m`;
+      }
+      cipherTextEl.textContent = payload;
+      setStatus('');
+    } catch (err) {
+      setStatus('Could not update location, retrying...');
+    }
   }
 
-  function startWatching() {
-    if (!('geolocation' in navigator)) {
+  // In the native app (mobile/), the @capacitor/geolocation plugin is used for both
+  // requesting permission *and* watching position, end to end through CLLocationManager.
+  // That keeps the OS permission prompt showing our Info.plist text and the app name.
+  // If we requested permission natively but then watched via navigator.geolocation,
+  // WKWebView would additionally show its own "'localhost' would like to use your
+  // current location" prompt, since the web geolocation API is handled by WebKit and
+  // tied to the page's origin rather than the app. On the plain website window.Capacitor
+  // is undefined, so this falls through to navigator.geolocation unchanged.
+  function getNativeGeolocationPlugin() {
+    return (window.Capacitor && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins.Geolocation) || null;
+  }
+
+  async function requestNativeLocationPermission() {
+    const nativeGeo = getNativeGeolocationPlugin();
+    if (!nativeGeo) return true;
+    try {
+      const status = await nativeGeo.requestPermissions();
+      return status.location === 'granted' || status.coarseLocation === 'granted';
+    } catch (_) {
+      return false;
+    }
+  }
+
+  async function startWatching() {
+    const nativeGeo = getNativeGeolocationPlugin();
+    if (!nativeGeo && !('geolocation' in navigator)) {
       setStatus('Geolocation is not supported by this browser.');
       return;
     }
-    watchId = navigator.geolocation.watchPosition(publishPosition, (err) => {
-      setStatus(`Location error: ${err.message}`);
-    }, {
+    if (!(await requestNativeLocationPermission())) {
+      setStatus('Location permission denied.');
+      return;
+    }
+    const options = {
       enableHighAccuracy: true,
       maximumAge: 5000,
       timeout: 20000,
-    });
+    };
+    if (nativeGeo) {
+      watchingViaNativePlugin = nativeGeo;
+      watchId = await nativeGeo.watchPosition(options, (position, err) => {
+        if (err) {
+          setStatus(`Location error: ${err.message}`);
+          return;
+        }
+        publishPosition(position);
+      });
+    } else {
+      watchingViaNativePlugin = null;
+      watchId = navigator.geolocation.watchPosition(publishPosition, (err) => {
+        setStatus(`Location error: ${err.message}`);
+      }, options);
+    }
   }
 
   function stopWatching() {
-    if (watchId !== null) {
+    if (watchId === null) return;
+    if (watchingViaNativePlugin) {
+      watchingViaNativePlugin.clearWatch({ id: watchId });
+    } else {
       navigator.geolocation.clearWatch(watchId);
-      watchId = null;
     }
-    if (socket) {
-      socket.close();
-      socket = null;
+    watchId = null;
+    watchingViaNativePlugin = null;
+  }
+
+  function formatCountdown(msRemaining) {
+    const totalSeconds = Math.max(0, Math.floor(msRemaining / 1000));
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    if (hours > 0) {
+      return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+    return `${minutes}:${String(seconds).padStart(2, '0')}`;
+  }
+
+  function startCountdown() {
+    stopCountdown();
+    const tick = () => {
+      const remaining = new Date(session.expiresAt).getTime() - Date.now();
+      if (remaining <= 0) {
+        countdownValue.textContent = formatCountdown(0);
+        stopSharing();
+        return;
+      }
+      countdownValue.textContent = formatCountdown(remaining);
+    };
+    tick();
+    countdownInterval = setInterval(tick, 1000);
+  }
+
+  function stopCountdown() {
+    if (countdownInterval !== null) {
+      clearInterval(countdownInterval);
+      countdownInterval = null;
     }
   }
 
   function showActive() {
     startSection.hidden = true;
     activeSection.hidden = false;
-    shareUrlInput.value = buildShareUrl(session.shareId, session.key.exported);
-    expiresEl.textContent = new Date(session.expiresAt).toLocaleString();
+    radarPulses.hidden = false;
+    radarCaptionIdle.hidden = true;
+    radarCaptionLive.hidden = false;
+    startCountdown();
   }
 
   function showStart() {
     startSection.hidden = false;
     activeSection.hidden = true;
+    radarPulses.hidden = true;
+    radarCaptionIdle.hidden = false;
+    radarCaptionLive.hidden = true;
+    stopCountdown();
+    updatesSent = 0;
+    updatesSentEl.textContent = '0';
+    gpsAccuracyEl.textContent = '—';
+    cipherTextEl.textContent = '—';
   }
 
   async function beginSharing(durationMinutes) {
@@ -111,7 +231,7 @@
     }));
 
     showActive();
-    connectSocket();
+    setStatus('Waiting for GPS fix...');
     startWatching();
   }
 
@@ -134,36 +254,11 @@
     };
 
     showActive();
-    connectSocket();
+    setStatus('Waiting for GPS fix...');
     startWatching();
   }
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const value = Number(durationInput.value);
-    const unit = durationUnit.value;
-    const minutes = unit === 'hours' ? value * 60 : value;
-
-    if (!value || minutes <= 0) {
-      setStatus('Enter a valid duration.');
-      return;
-    }
-
-    setStatus('Starting...');
-    try {
-      await beginSharing(Math.round(minutes));
-    } catch (err) {
-      setStatus(`Could not start sharing: ${err.message}`);
-    }
-  });
-
-  copyBtn.addEventListener('click', async () => {
-    await navigator.clipboard.writeText(shareUrlInput.value);
-    copyBtn.textContent = 'Copied!';
-    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
-  });
-
-  stopBtn.addEventListener('click', async () => {
+  async function stopSharing() {
     if (!session) return;
     stopWatching();
     try {
@@ -172,6 +267,57 @@
     localStorage.removeItem(STORAGE_ACTIVE_SHARE);
     session = null;
     showStart();
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const minutes = durationIndexToMinutes(Number(durationSlider.value));
+
+    setStatus('Starting...');
+    try {
+      await beginSharing(minutes);
+    } catch (err) {
+      setStatus(`Could not start sharing: ${err.message}`);
+    }
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    if (!session) return;
+    const url = buildShareUrl(session.shareId, session.key.exported);
+    // Inside the native iOS/Android app (mobile/), Capacitor injects window.Capacitor
+    // with native Share/Clipboard plugins that are more reliable than the web APIs
+    // running in a WebView. On the plain website, window.Capacitor is undefined and
+    // the code below falls through to navigator.share/clipboard unchanged.
+    const nativePlugins = window.Capacitor && window.Capacitor.isNativePlatform() ? window.Capacitor.Plugins : null;
+
+    if (nativePlugins) {
+      try {
+        await nativePlugins.Share.share({ title: 'privIsee', url });
+        return;
+      } catch (_) {
+        // user cancelled or share sheet failed, fall back to clipboard
+      }
+    } else if (navigator.share) {
+      try {
+        await navigator.share({ title: 'privIsee', url });
+        return;
+      } catch (_) {
+        // user cancelled or share failed, fall back to clipboard
+      }
+    }
+
+    if (nativePlugins) {
+      await nativePlugins.Clipboard.write({ string: url });
+    } else {
+      await navigator.clipboard.writeText(url);
+    }
+    const original = copyBtn.textContent;
+    copyBtn.textContent = 'Copied';
+    setTimeout(() => { copyBtn.textContent = original; }, 1800);
+  });
+
+  stopBtn.addEventListener('click', () => {
+    stopSharing();
   });
 
   resumeSharing();

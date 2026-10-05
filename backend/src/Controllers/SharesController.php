@@ -76,6 +76,41 @@ final class SharesController
         ]);
     }
 
+    public function updateLocation(Request $request, array $params): void
+    {
+        $ownerToken = (string) ($request->body['ownerToken'] ?? '');
+        $payload = (string) ($request->body['payload'] ?? '');
+        $iv = (string) ($request->body['iv'] ?? '');
+
+        if ($ownerToken === '' || $payload === '' || $iv === '') {
+            Response::error('ownerToken, payload and iv are required');
+            return;
+        }
+
+        $now = gmdate('Y-m-d H:i:s');
+        $pdo = Database::connection();
+        $stmt = $pdo->prepare(
+            'UPDATE shares
+             SET enc_location = :payload, iv = :iv, updated_at = :updated_at
+             WHERE id = :id AND owner_token = :owner_token AND active = 1 AND expires_at > :now'
+        );
+        $stmt->execute([
+            'payload' => $payload,
+            'iv' => $iv,
+            'updated_at' => $now,
+            'id' => $params['id'],
+            'owner_token' => $ownerToken,
+            'now' => $now,
+        ]);
+
+        if ($stmt->rowCount() === 0) {
+            Response::error('Not found, inactive, expired, or invalid owner token', 404);
+            return;
+        }
+
+        Response::json(['ok' => true, 'updatedAt' => $now]);
+    }
+
     public function stop(Request $request, array $params): void
     {
         $ownerToken = (string) ($request->body['ownerToken'] ?? '');

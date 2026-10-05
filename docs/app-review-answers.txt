@@ -1,0 +1,110 @@
+privIsee — Answers to App Store review questions
+================================================
+Placeholders in [SQUARE BRACKETS] still need to be filled in before submitting.
+
+
+1. Screen recording
+-------------------
+Recording file / link: [LINK OR FILE NAME OF SCREEN RECORDING]
+Recorded on: [DEVICE MODEL, e.g. iPhone 16 Pro], iOS [VERSION, e.g. 26.x]
+
+What the recording shows:
+  1. Launching privIsee from the home screen.
+  2. Choosing a sharing duration (15 minutes up to 24 hours) and tapping "Go live".
+  3. Granting the iOS "While Using the App" location permission.
+  4. The live screen: countdown, the encrypted data the server received (ciphertext),
+     and the share link.
+  5. Copying the link and opening it in Safari (or on a second device): the position
+     appears as a live dot on a map, with a "directions" button.
+  6. Tapping "Go dark" to end the share; reloading the link shows that the share has ended.
+
+Not applicable to this app, so not shown in the recording:
+  - Account registration, login, account deletion: privIsee has no accounts. Users never
+    register or sign in, and no name, e-mail or phone number is collected.
+  - User-generated content: there is no content feed, chat, comments or uploads. A share
+    link only contains an encrypted location, sent privately to whoever the user picks,
+    so there is nothing to report or block.
+  - Paid content: the app is completely free, with no in-app purchases,
+    subscriptions or ads.
+
+
+2. Purpose and target audience
+------------------------------
+privIsee lets people share their live GPS location with chosen contacts for a limited
+time, through a link, without giving the location to anyone else, including us as the
+operator.
+
+Problem it solves: most location-sharing apps send exact positions to their servers,
+where they can be stored, analysed or leaked, and often need an account on both sides.
+privIsee encrypts every position on the device (AES-256-GCM) before sending it. The
+decryption key is only in the link fragment (after "#"), which browsers never send to a
+server, so our server only stores ciphertext. It keeps no location history; each update
+overwrites the previous one, and expired shares are deleted automatically.
+
+Value: you can be found by the right people (friends at a festival, family while you
+walk home, someone picking you up, hiking or running partners) without being tracked.
+The recipient needs no app and no account, because the link opens in any browser.
+
+Target audience: adults (16+) who want to share their location temporarily with
+people they trust and care about privacy. The app is not directed at children.
+
+
+3. Setup and access instructions
+--------------------------------
+No login, credentials or sample files are needed.
+
+  1. Open privIsee.
+  2. Pick how long you want to be findable (e.g. 15 minutes).
+  3. Tap "Go live" and allow location access when iOS asks.
+  4. Tap "Copy link" (or share it) and open the link in Safari or on a second device.
+     Your position appears as a live dot on the map and updates every few seconds.
+  5. Optional: on the map page, tap the directions button to open a route to the shared
+     position.
+  6. Tap "Go dark" to stop sharing. The link then shows that the share has ended.
+
+Tip for testing on a simulator or a stationary device: the map shows the current
+position. Moving around (or simulating a location) shows the live updates.
+
+Source code (public): https://github.com/mgrgic/privisee
+Contact for review questions: app@seleven.de / [PHONE NUMBER, optional]
+
+
+4. External services used
+-------------------------
+privIsee uses no authentication service, payment processor, analytics, advertising
+or AI service. It uses these external services:
+
+  - IONOS SE (Germany, EU data centers): hosts the web app and the backend REST API and
+    MySQL database. It stores only encrypted location data, a random share ID and a
+    random owner token.
+  - Esri ArcGIS (server.arcgisonline.com): map background tiles shown on the share/map page.
+  - unpkg CDN (on Cloudflare infrastructure): delivers the open-source map library
+    Leaflet 1.9.4.
+  - Google Fonts: web fonts "Space Grotesk" and "Space Mono".
+  - OpenStreetMap (openstreetmap.org/directions): opened only when a viewer taps the
+    directions button (on Android, the device's own maps app is used instead).
+  - Apple Core Location / device location services, through the system location API.
+  - Encryption uses the platform's built-in Web Crypto API (no third-party crypto service).
+
+
+5. Regional differences
+-----------------------
+The app works the same in all regions where it is available. There are no
+region-specific features, content or pricing. The user interface is in English.
+[OPTIONAL: list any countries where you choose not to distribute the app, otherwise
+remove this line.]
+
+
+6. Regulated industry / protected third-party material
+------------------------------------------------------
+Not applicable. privIsee does not operate in a regulated industry (no finance, health,
+gambling, legal, VPN or similar services) and includes no protected third-party material.
+
+  - Map data: Esri ArcGIS tiles, used under Esri's terms of use.
+    [CONFIRM the Esri terms / account type that covers your usage]
+  - Leaflet: open-source library under the BSD-2-Clause license.
+  - Fonts: Space Grotesk and Space Mono, under the SIL Open Font License, served by
+    Google Fonts.
+  - Encryption: only standard encryption provided by the operating system
+    (AES-256-GCM through Web Crypto, HTTPS/TLS). This qualifies for the US export
+    compliance exemption (ITSAppUsesNonExemptEncryption = NO).
