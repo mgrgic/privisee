@@ -77,7 +77,7 @@
   const videoFrame = document.getElementById('video-frame');
   document.getElementById('video-load-btn').addEventListener('click', () => {
     const iframe = document.createElement('iframe');
-    iframe.src = 'https://www.youtube-nocookie.com/embed/QpcRD2oRAM4?autoplay=1';
+    iframe.src = 'https://www.youtube-nocookie.com/embed/QpcRD2oRAM4?autoplay=1&controls=0&rel=0&playsinline=1&iv_load_policy=3';
     iframe.title = 'privIsee video';
     iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
     iframe.referrerPolicy = 'strict-origin-when-cross-origin';

@@ -356,7 +356,7 @@ button {
 .video-frame {
   position: relative;
   aspect-ratio: 16 / 9;
-  border-radius: 8px;
+  margin: 0 -22px; /* full app width: every pixel helps at phone size */
   overflow: hidden;
 }
 
