@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>privIsee — Privacy Policy</title>
+  <meta name="description" content="How privIsee handles your data: end-to-end encrypted location sharing, no accounts, no tracking." />
+  <meta name="theme-color" content="#0B0D0C" />
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" type="image/png" href="/img/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/img/app_logo-636.png" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    .legal {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 8px 22px 64px;
+      line-height: 1.6;
+      color: var(--text-2);
+      font-size: 15px;
+    }
+    .legal h1 {
+      font: 700 32px/1.15 'Space Grotesk', sans-serif;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin: 12px 0 4px;
+    }
+    .legal .updated {
+      font: 400 11px 'Space Mono', monospace;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0 0 28px;
+    }
+    .legal h2 {
+      font: 700 13px 'Space Mono', monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 40px 0 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .legal h3 {
+      font: 700 16px 'Space Grotesk', sans-serif;
+      color: var(--text);
+      margin: 24px 0 8px;
+    }
+    .legal p, .legal li { margin: 0 0 12px; }
+    .legal ul { padding-left: 20px; margin: 0 0 12px; }
+    .legal strong { color: var(--text); }
+    .legal code {
+      font: 400 13px 'Space Mono', monospace;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 5px;
+      word-break: break-all;
+    }
+    .legal .tldr {
+      background: var(--surface);
+      border: 1px solid var(--line-strong);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin: 0 0 8px;
+    }
+    .legal .tldr ul { margin: 0; }
+    .legal .tldr li { margin-bottom: 6px; }
+    .legal .table-wrap { overflow-x: auto; margin: 0 0 16px; }
+    .legal table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .legal th, .legal td {
+      text-align: left;
+      vertical-align: top;
+      padding: 10px 10px 10px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .legal th {
+      font: 700 11px 'Space Mono', monospace;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .legal address { font-style: normal; margin: 0 0 12px; }
+    .legal .back {
+      display: inline-block;
+      margin-top: 40px;
+      font: 400 12px 'Space Mono', monospace;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .legal .back:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="app-header" style="max-width: 680px; margin: 0 auto;">
+    <a href="/" style="text-decoration: none;">
+      <div class="logo">priv<span style="color: var(--accent-hover); font-family: Consolas,serif">&nbsp;I&nbsp;</span>see<span class="dot">. [:privacy]</span></div>
+    </a>
+    <a class="source-link" href="https://github.com/mgrgic/privisee/" target="_blank" rel="noopener noreferrer">[ open source ]</a>
+  </div>
+
+  <main class="legal">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: 3 October 2026</p>
+
+    <div class="tldr">
+      <ul>
+        <li><strong>No accounts, no names, no e-mail addresses, no phone numbers.</strong></li>
+        <li><strong>Your location is encrypted on your device</strong> before it is sent. Our server only stores ciphertext and cannot read your position.</li>
+        <li>The key to decrypt it exists only in the share link you hand out (after the <code>#</code>), which browsers never send to any server.</li>
+        <li><strong>No cookies, no analytics, no advertising, no tracking.</strong></li>
+        <li>Shares end when the time you chose runs out or when you tap “Go dark”. Expired shares are deleted from our database after one month.</li>
+      </ul>
+    </div>
+
+    <h2>1. Who is responsible</h2>
+    <p>This policy applies to the privIsee website and web app (including the share pages at <code>/s/…</code>) and to the privIsee app for iOS, which displays the same web app. The controller within the meaning of the EU General Data Protection Regulation (GDPR) is:</p>
+    <address>
+      Miroslav Grgić<br>
+      Im Feldchen 19<br>
+      53757 Sankt Augustin<br>
+      Germany<br>
+      E-mail: <a href="mailto:app@seleven.de">app@seleven.de</a>
+    </address>
+    <p>privIsee is open source. You can check everything described here in the <a href="https://github.com/mgrgic/privisee/" target="_blank" rel="noopener noreferrer">source code</a>.</p>
+
+    <h2>2. How privIsee works</h2>
+    <p>When you tap <strong>Go live</strong> and choose a duration (15 minutes up to 24 hours), the following happens:</p>
+    <ul>
+      <li>Your device generates a random 256-bit AES key. It is placed in the <em>fragment</em> of your share link (<code>…/s/{shareId}#key=…</code>). Browsers never transmit the fragment to any server, so <strong>we never receive this key</strong>.</li>
+      <li>Our server creates a share entry and returns a random share ID and a secret “owner token” that only your device knows. The owner token allows only your device to update or stop the share.</li>
+      <li>While sharing is active, your device reads its GPS position, encrypts latitude and longitude with AES-256-GCM and sends only the encrypted result to our server.</li>
+      <li>Anyone who opens your full share link downloads the latest encrypted position about every 4 seconds and decrypts it locally in their browser to show it on a map.</li>
+    </ul>
+    <p><strong>Anyone who has the full share link can see your live location</strong> for as long as the share is active. Only share the link with people you trust. You can end the share at any time with <strong>Go dark</strong>.</p>
+
+    <h2>3. Data we process</h2>
+
+    <h3>3.1 Data stored on our server</h3>
+    <p>For each share our database stores exactly these fields:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Data</th><th>What it is</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Share ID</td><td>Random identifier that is part of the share link.</td></tr>
+          <tr><td>Owner token</td><td>Random secret that authorizes your device to update or stop the share.</td></tr>
+          <tr><td>Device ID</td><td>A random identifier (UUID) generated by the app on your device the first time you share. It is not derived from your device, phone number or any hardware ID, and it contains no personal information. It lets shares started from the same browser/app be grouped together.</td></tr>
+          <tr><td>Encrypted location</td><td>Your latest position as AES-GCM ciphertext plus its initialization vector (IV). Only the latest position is kept; every update overwrites the previous one. No location history is stored. We cannot decrypt it.</td></tr>
+          <tr><td>Timestamps</td><td>When the share was created, when it expires and when the location was last updated.</td></tr>
+          <tr><td>Status</td><td>Whether the share is active or was stopped.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>We do not store your name, e-mail address, phone number, IP address or any unencrypted location in this database.</p>
+
+    <h3>3.2 Location data on your device</h3>
+    <p>To share your position, privIsee asks for permission to access your device’s location. Your location is used only while a share is active, only to encrypt it and send the ciphertext as described above. If you deny permission, sharing is not possible; viewing a share does not require location access. You can revoke the permission at any time in your browser or device settings.</p>
+
+    <h3>3.3 Data stored in your browser / app (local storage)</h3>
+    <p>privIsee does not use cookies. It uses your browser’s local storage for two entries that never leave your device unless stated:</p>
+    <ul>
+      <li><code>privisee.userId</code> — the random device ID described above (sent to our server when you start a share). It stays until you clear your browser or app data.</li>
+      <li><code>privisee.activeShare</code> — the details of your currently running share (share ID, owner token, expiry time and the encryption key), so that sharing can continue if you reload the page. It is deleted when you stop sharing or the share has expired.</li>
+    </ul>
+
+    <h3>3.4 Server log files</h3>
+    <p>Like every website, our hosting provider’s web server automatically processes technical data when you access privIsee, for example your IP address, date and time of the request, the requested URL, the HTTP status code, the referrer and the browser/operating system (user agent). Share IDs appear in requested URLs; the decryption key does not, because it is in the link fragment. This data is required to deliver the site and to keep it secure and stable. It is not combined with other data and not used to identify you. Log files are stored by our hosting provider for [30] days and then deleted, unless longer retention is needed to investigate a specific security incident.</p>
+
+    <h2>4. Third-party services</h2>
+    <p>Some content is loaded directly from third-party servers. When this happens, your browser connects to those servers and they receive at least your IP address and the usual request data (user agent, time, requested file).</p>
+
+    <h3>4.1 Hosting — IONOS</h3>
+    <p>privIsee is hosted by IONOS SE, Elgendorfer Str. 57, 56410 Montabaur, Germany, in data centers within the EU. IONOS processes the data described in sections 3.1 and 3.4 on our behalf under a data processing agreement (Art. 28 GDPR).</p>
+
+    <h3>4.2 Map tiles — Esri</h3>
+    <p>On the share page, the map background is loaded from Esri’s ArcGIS servers (<code>server.arcgisonline.com</code>; Environmental Systems Research Institute, Inc., 380 New York Street, Redlands, CA 92373, USA). To show the map, the viewer’s browser requests the map tiles around the shared position. <strong>This means Esri can infer the approximate area being viewed</strong> (but not who is sharing it, and not the exact coordinates). Data may be transferred to the USA. Esri’s privacy statement: <a href="https://www.esri.com/en-us/privacy/overview" target="_blank" rel="noopener noreferrer">esri.com/privacy</a>.</p>
+
+    <h3>4.3 Map library — unpkg</h3>
+    <p>The share page loads the open-source map library Leaflet from the content delivery network unpkg (<code>unpkg.com</code>), which is operated on the infrastructure of Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA. Data may be transferred to the USA. Cloudflare is certified under the EU-U.S. Data Privacy Framework. Privacy policy: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/privacypolicy</a>.</p>
+
+    <h3>4.4 Fonts — Google Fonts</h3>
+    <p>The fonts “Space Grotesk” and “Space Mono” are loaded from Google Fonts (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland). Data may be transferred to Google LLC in the USA. Google LLC is certified under the EU-U.S. Data Privacy Framework. Privacy policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a>.</p>
+
+    <h3>4.5 Directions and sharing</h3>
+    <p>On the share page you can request directions to the shared position. On Android this opens your device’s map app via a <code>geo:</code> link; on other devices it opens <code>openstreetmap.org</code> (OpenStreetMap Foundation, St John’s Innovation Centre, Cowley Road, Cambridge, CB4 0WS, United Kingdom) with the position as destination. This only happens when you tap the button, and the position is then handled under the privacy policy of that app or website. When you copy or share your link, your device’s system share sheet or clipboard is used; the link is passed to whichever app you choose.</p>
+
+    <h2>5. Purposes and legal bases</h2>
+    <ul>
+      <li><strong>Providing the location-sharing service</strong> (sections 3.1–3.3): Art. 6(1)(b) GDPR — performance of the service you request.</li>
+      <li><strong>Access to your device’s location</strong>: your consent through the operating system/browser permission (Art. 6(1)(a) GDPR; § 25(1) TDDDG), which you can withdraw at any time.</li>
+      <li><strong>Local storage</strong>: strictly necessary to provide the service you explicitly requested (§ 25(2) no. 2 TDDDG).</li>
+      <li><strong>Server log files, map tiles, map library and fonts</strong> (sections 3.4, 4.2–4.4): Art. 6(1)(f) GDPR — our legitimate interest in a secure, reliable and usable service.</li>
+    </ul>
+    <p>We do not use your data for advertising, profiling or automated decision-making, and we do not sell it.</p>
+
+    <h2>6. How long we keep data</h2>
+    <ul>
+      <li><strong>Encrypted location</strong>: only the most recent position is kept; each update overwrites the previous one. Once a share is stopped or expired, no further updates are accepted and the share page shows it as ended.</li>
+      <li><strong>Share records</strong> (section 3.1): permanently deleted by an automatic hourly job once they have been expired for more than one month.</li>
+      <li><strong>Local storage</strong> (section 3.3): until you stop the share (active share) or clear your browser/app data (device ID).</li>
+      <li><strong>Server log files</strong> (section 3.4): see above.</li>
+    </ul>
+
+    <h2>7. Security</h2>
+    <p>All connections use HTTPS (TLS). Locations are end-to-end encrypted with AES-256-GCM using the cryptography built into your browser/operating system (Web Crypto API), with a fresh random IV for every update. Even someone with full access to our database cannot read your position without the key in your share link. Please keep in mind that anyone who obtains your full share link — for example by forwarding — can see your location until the share ends.</p>
+
+    <h2>8. Your rights</h2>
+    <p>Under the GDPR you have the right to access (Art. 15), rectification (Art. 16), erasure (Art. 17), restriction of processing (Art. 18), data portability (Art. 20) and to object to processing based on legitimate interests (Art. 21). Where processing is based on consent, you can withdraw it at any time with effect for the future.</p>
+    <p>Because privIsee has no accounts, we cannot identify you on our own. To exercise your rights regarding a share, please send us the share link or share ID. You can end a share yourself at any time by tapping <strong>Go dark</strong>, and remove all local data by clearing your browser or app data.</p>
+    <p>You also have the right to lodge a complaint with a data protection supervisory authority, in particular in the EU member state of your residence, place of work or the place of the alleged infringement.</p>
+
+    <h2>9. Children</h2>
+    <p>privIsee is not directed at children under 16. Parents and guardians should be aware that the service shares a device’s live location with anyone holding the link.</p>
+
+    <h2>10. Changes to this policy</h2>
+    <p>We may update this policy when the app or the legal requirements change. The current version is always available at this address, with the date of the last update shown at the top.</p>
+
+    <h2>11. Contact</h2>
+    <p>For any questions about privacy, contact us at <a href="mailto:app@seleven.de">app@seleven.de</a>.</p>
+
+    <a class="back" href="/">[ ← back to privIsee ]</a>
+  </main>
+</body>
+</html>
