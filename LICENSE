@@ -37,8 +37,28 @@ These files are made visible for reference and review only. No license is
 granted to copy, modify, distribute, publish, or use them, in whole or in
 part, without prior written permission from the copyright holder.
 
-3. Name and logo
-----------------
+3. The concept is free to use
+-----------------------------
+
+The idea behind privIsee is free for anyone to use, including commercially,
+without asking for permission. That idea is to share a live location through a
+link where the frontend encrypts and decrypts the position, the key stays in
+the URL fragment, and the server only ever stores ciphertext. The author
+claims no exclusive rights to this concept and will not assert any patent or
+similar rights against anyone who implements it.
+
+This covers the concept and the technique only. It does not cover:
+
+  - the source code, texts and assets in this repository outside `backend/`
+    (section 2). Write your own implementation rather than copying ours;
+  - the name, logo and app icon (section 4);
+  - the design of the privIsee apps and website, meaning their visual
+    appearance, layout, colours, icons, screens and overall look and feel,
+    which remain all rights reserved under section 2. Your implementation
+    must look clearly different from privIsee.
+
+4. Name, logo and design
+------------------------
 
 "privIsee"™, the privIsee logo and the app icon are trademarks of Miroslav
 Grgić. They are not licensed under the AGPL or under any other license in

@@ -11,6 +11,7 @@ The Marks include, without limitation, the following files and any variations of
 - `frontend/img/favicon*`
 - `mobile/assets/icon.png`
 - the app icons under `mobile/ios/` and `mobile/android/`
+- the distinctive visual design (trade dress) of the privIsee apps and website
 
 ## The open-source license does not cover the Marks
 
@@ -18,6 +19,13 @@ The backend source code is licensed under the GNU AGPL v3.0 or later (see `backe
 That license covers the **code only**. In line with section 7(e) of the AGPL, it grants **no
 rights** to use the Marks. Nothing in this repository grants any license to the Marks, whether
 expressly, by implication or otherwise.
+
+## The concept is free, the brand is not
+
+You may freely build your own app or service based on the privIsee concept: a location shared
+through a link, encrypted and decrypted in the frontend, with a server that only stores
+ciphertext (see section 3 of `LICENSE`). However, you must give it your own name, your own logo
+and your own design. It must not look like privIsee or be mistaken for it.
 
 ## What you may do without asking
 

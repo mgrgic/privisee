@@ -89,3 +89,6 @@ docs are proprietary (all rights reserved). See [LICENSE](LICENSE) for details.
 
 "privIsee", the logo and the app icon are trademarks and are not covered by any open-source
 license. Forks must use their own name and logo. See [TRADEMARKS.md](TRADEMARKS.md).
+
+The **concept** of encrypting and decrypting locations in the frontend, so that the server only
+ever stores ciphertext, is free for anyone to use. The name, logo and design are not.
