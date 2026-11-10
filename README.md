@@ -80,3 +80,12 @@ Steps:
 
 If your account's home directory isn't a sibling of `htdocs/` the way this layout assumes,
 adjust the `require` path in `htdocs/api/index.php` accordingly.
+
+## License
+
+The backend (`backend/`) is open source under the
+[GNU AGPL v3.0 or later](backend/LICENSE). The frontend, mobile apps, images, assets and
+docs are proprietary (all rights reserved). See [LICENSE](LICENSE) for details.
+
+"privIsee", the logo and the app icon are trademarks and are not covered by any open-source
+license. Forks must use their own name and logo. See [TRADEMARKS.md](TRADEMARKS.md).
