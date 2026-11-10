@@ -1,0 +1,72 @@
+privIsee — Licensing Overview
+=============================
+
+Copyright (c) 2026 Miroslav Grgić
+
+This repository contains parts under different licenses.
+
+1. Backend — open source (GNU AGPL v3.0 or later)
+-------------------------------------------------
+
+Everything in the `backend/` directory (excluding third-party code in
+`backend/vendor/`, which keeps its own licenses) is free software: you can
+redistribute it and/or modify it under the terms of the GNU Affero General
+Public License as published by the Free Software Foundation, either version 3
+of the License, or (at your option) any later version.
+
+It is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See `backend/LICENSE` for the full license text.
+
+If you run a modified version of the backend as a network service, the AGPL
+requires you to offer its source code to the users of that service.
+
+2. Everything else — all rights reserved
+----------------------------------------
+
+All other files in this repository, including but not limited to:
+
+  - `frontend/` (HTML, CSS, JavaScript, images, icons),
+  - `mobile/` (iOS and Android apps, assets, configuration),
+  - `docs/` (texts, screenshots, store listings, marketing material),
+  - `deploy/` and other files not listed in section 1,
+
+are proprietary. Copyright (c) 2026 Miroslav Grgić. All rights reserved.
+
+These files are made visible for reference and review only. No license is
+granted to copy, modify, distribute, publish, or use them, in whole or in
+part, without prior written permission from the copyright holder.
+
+3. The concept is free to use
+-----------------------------
+
+The idea behind privIsee is free for anyone to use, including commercially,
+without asking for permission. That idea is to share a live location through a
+link where the frontend encrypts and decrypts the position, the key stays in
+the URL fragment, and the server only ever stores ciphertext. The author
+claims no exclusive rights to this concept and will not assert any patent or
+similar rights against anyone who implements it.
+
+This covers the concept and the technique only. It does not cover:
+
+  - the source code, texts and assets in this repository outside `backend/`
+    (section 2). Write your own implementation rather than copying ours;
+  - the name, logo and app icon (section 4);
+  - the design of the privIsee apps and website, meaning their visual
+    appearance, layout, colours, icons, screens and overall look and feel,
+    which remain all rights reserved under section 2. Your implementation
+    must look clearly different from privIsee.
+
+4. Name, logo and design
+------------------------
+
+"privIsee"™, the privIsee logo and the app icon are trademarks of Miroslav
+Grgić. They are not licensed under the AGPL or under any other license in
+this repository. Under section 7(e) of the AGPL, no rights are granted to use
+these trade names, trademarks or service marks.
+
+Forks and derivative works must use a different name and logo, and must not
+suggest that they are the official privIsee service or that its author
+endorses them. See `TRADEMARKS.md` for the full trademark policy.
+
+Contact: miroslav.grgic@og-cs.com

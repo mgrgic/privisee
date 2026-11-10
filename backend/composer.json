@@ -2,6 +2,7 @@
     "name": "privisee/backend",
     "description": "privIsee backend: REST API for encrypted location shares. No runtime dependencies; this file exists only so editors resolve the PrivIsee\\ namespace (see src/autoload.php for the actual autoloader used at runtime).",
     "type": "project",
+    "license": "AGPL-3.0-or-later",
     "require": {
         "php": ">=8.2"
     },
