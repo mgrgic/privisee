@@ -59,4 +59,4 @@ requesting takedowns from app stores, hosting providers and domain registrars.
 
 ## Contact
 
-For permission requests or to report misuse: miroslav.grgic@og-cs.com
+For permission requests or to report misuse: app@seleven.de
